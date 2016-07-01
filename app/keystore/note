@@ -1,0 +1,8 @@
+debug:
+    keytool -genkey -alias debugkey -keyalg RSA -validity 20000 -keystore debug.keystore
+    keytool -list -v -keystore debug.keystore -alias debugkey -storepass raptor1234 -keypass raptor1234
+
+release:
+    keytool -genkey -alias releasekey -keyalg RSA -validity 20000 -keystore release.keystore
+    keytool -list -v -keystore release.keystore -alias releasekey -storepass raptor1234 -keypass raptor1234
+

@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.SettingActivity"></activity>
-
+        <activity android:name=".ui.activity.DestinationActivity"></activity>
         <service android:name="com.amap.api.location.APSService"/>
 
         <meta-data

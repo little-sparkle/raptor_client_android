@@ -24,6 +24,10 @@ public class ItemLvDestinationAdapter extends BaseAdapter {
         this.layoutInflater = LayoutInflater.from(context);
     }
 
+    public List<String> getEntities() {
+        return mEntities;
+    }
+
     public void setEntities(List<String> entities) {
         mEntities = entities;
     }

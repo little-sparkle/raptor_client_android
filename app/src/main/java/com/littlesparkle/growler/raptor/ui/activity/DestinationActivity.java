@@ -1,9 +1,12 @@
 package com.littlesparkle.growler.raptor.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +31,8 @@ public class DestinationActivity extends HandlerActivity implements TextWatcher,
     private List<String> entities = new ArrayList<>();
     private ItemLvDestinationAdapter mItemLvDestinationAdapter = null;
     private PoiSearchTask mPoiSearchTask = null;
+    private List<String> poiEntities = null;
+
 
     @Override
     protected void onHandlerMessage(Message msg) {
@@ -80,6 +85,8 @@ public class DestinationActivity extends HandlerActivity implements TextWatcher,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search_destination:
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 mPoiSearchTask.search(mEditText.getText().toString(), "beijing");
                 mItemLvDestinationAdapter.notifyDataSetChanged();
                 break;
@@ -88,6 +95,10 @@ public class DestinationActivity extends HandlerActivity implements TextWatcher,
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        poiEntities = mItemLvDestinationAdapter.getEntities();
+        Intent intent = new Intent();
+        intent.putExtra("address", poiEntities.get(position));
+        setResult(MainActivity.RESULT_CODE_DESTINATION_SUCCESS, intent);
+        this.finish();
     }
 }

@@ -15,4 +15,20 @@
     <string name="camera">拍照</string>
     <string name="photo">从手机相册选择</string>
     <string name="cancle">取消</string>
+
+    <!--注册页面字符-->
+    <string name="phone_number">手机号</string>
+    <string name="password_login">密码</string>
+    <string name="forget">忘记密码</string>
+    <string name="login">登录</string>
+
+    <!--设置界面字符-->
+    <string name="setting_title">设置</string>
+    <string name="Common_address">常用地址</string>
+    <string name="update">版本更新</string>
+    <string name="change">更改密码</string>
+    <string name="about">关于</string>
+    <string name="logout">退出登录</string>
+
+
 </resources>

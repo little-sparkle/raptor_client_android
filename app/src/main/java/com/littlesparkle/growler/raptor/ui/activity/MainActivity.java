@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.PersistableBundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 
 import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
 
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps2d.AMap;
@@ -30,9 +28,6 @@ import com.amap.api.maps2d.model.LatLng;
 
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
-import com.amap.api.services.geocoder.GeocodeResult;
-import com.amap.api.services.geocoder.GeocodeSearch;
-import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
 import com.littlesparkle.growler.raptor.R;
@@ -99,7 +94,7 @@ public class MainActivity extends HandlerActivity implements
                 .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
                     @Override
                     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-                        startActivity(SettingActivity.class);
+                        startActivity(InfoActivity.class);
 
                         return false;
                     }
@@ -147,21 +142,27 @@ public class MainActivity extends HandlerActivity implements
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        switch (position) {
+                            case 0:
 
+                                break;
+                            case 1:
+
+                                break;
+                            case 2:
+
+                                break;
+                            case 3:
+                                startActivity(SettingActivity.class);
+
+                                break;
+                        }
                         return false;
                     }
                 })
                 .build();
     }
 
-
-//根据屏幕坐标得到经纬度
-//    public LatLng pointToLatLng(int ScreenWidth, int ScreenHeight) {
-//        Projection projection = mAMap.getProjection();
-//        Point point = new Point(ScreenWidth, ScreenHeight);
-//        LatLng latLng = projection.fromScreenLocation(point);
-//        return latLng;
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -284,7 +285,9 @@ public class MainActivity extends HandlerActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_menu:
+//                这里需要进行判断是否登录过了，如果没有，跳转到登陆界面
                 mDrawer.openDrawer();
+                startActivity(LoginActivity.class);
                 break;
             case R.id.tv_to:
                 Intent intent = new Intent(this, DestinationActivity.class);

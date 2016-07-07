@@ -11,7 +11,7 @@
               android:layout_centerHorizontal="true"
               android:background="#458712"
               android:gravity="center"
-              android:text="@string/camera"
+              android:text="@string/photo"
               android:textSize="16sp"/>
     <TextView android:id="@+id/tv_camera"
               android:layout_width="350dp"
@@ -20,17 +20,17 @@
               android:layout_below="@+id/tv_photo"
               android:background="#985677"
               android:gravity="center"
-              android:text="@string/photo"
+
+              android:text="@string/camera"
               android:textSize="16sp"/>
     <TextView android:id="@+id/tv_cancale_popwindow"
               android:layout_width="350dp"
               android:layout_height="50dp"
-              android:layout_alignParentBottom="true"
-              android:layout_centerHorizontal="true"
               android:background="#985677"
               android:gravity="center"
               android:text="@string/cancle"
-              android:textSize="16sp"/>
+              android:textSize="16sp"
+              android:layout_alignParentBottom="true" android:layout_alignStart="@+id/tv_camera"/>
 
 
 </RelativeLayout>

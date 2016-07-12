@@ -36,7 +36,8 @@
         android:id="@+id/main_navi_bar"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_alignParentStart="true" android:layout_below="@+id/main_title_bar">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/main_title_bar">
         <Button
             android:id="@+id/bt_kuaiche"
             android:layout_width="100dp"
@@ -44,8 +45,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="20dp"
-            android:background="#f00"
-            android:text="快车"
+            android:background="#548961"
+            android:text="出租车"
             android:textColor="#000"
             android:textSize="12sp"/>
         <Button
@@ -71,17 +72,18 @@
     </com.amap.api.maps2d.MapView>
 
     <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_above="@+id/from_and_to"
+        android:id="@+id/linear_Now_Later"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/relativeTime"
         android:layout_alignParentStart="true" android:background="#3542"
-        android:orientation="horizontal">
+        android:orientation="horizontal" android:visibility="gone">
         <Button
             android:id="@+id/call_car_now"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#823498"/>
+            android:background="#956"/>
         <Button
             android:id="@+id/call_car_later"
             android:layout_width="0dp"
@@ -122,6 +124,27 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="#568127"/>
+        <RelativeLayout
+            android:id="@+id/relative_pick_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"></RelativeLayout>
 
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relativeTime"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/from_and_to"
+        android:layout_alignParentStart="true" android:background="#FFF"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/check_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true" android:gravity="center"
+            android:text="请选择出发时间"/>
     </RelativeLayout>
 </RelativeLayout>

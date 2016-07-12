@@ -1,5 +1,6 @@
 package com.littlesparkle.growler.raptor.ui.activity;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -16,32 +18,44 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.littlesparkle.growler.library.activity.BaseActivity;
+import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
 import com.littlesparkle.growler.raptor.R;
 import com.littlesparkle.growler.raptor.listener.OnPopwindowClickListener;
 import com.littlesparkle.growler.raptor.ui.views.HeadPopWindow;
+import com.littlesparkle.growler.raptor.utils.SaveBMUtil;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+
+
 
 
 /**
  * Created by dell on 2016/7/4.
  */
-public class InfoActivity extends BaseActivity implements View.OnClickListener, OnPopwindowClickListener {
+public class InfoActivity extends BaseFragmentActivity implements View.OnClickListener, OnPopwindowClickListener {
 
     private ImageView headImageView = null;
     private HeadPopWindow mHeadPopWindow = null;
     private RelativeLayout driverLayout = null;
     private TextView mTextViewForPop = null;
     private File mHeadPhoto = null;
+    private Bitmap bmp = null;
 
-    //拍照
+
+    private Button btBack = null;
+
+    //拍照返回
     public static final int REQUEST_CODE_TAKE_PHOTO = 10;
-    //截取
+    //截取返回
     public static final int REQUEST_CODE_CLIP_PHOTO = 20;
+
+    private static final int REQUEST_CODE_GALLARY_CROP = 120;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -62,6 +76,8 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener, 
         mTextViewForPop = (TextView) this.findViewById(R.id.text_for_pop);
         headImageView = (ImageView) this.findViewById(R.id.imgv_header_setting);
         headImageView.setOnClickListener(this);
+        btBack = (Button) this.findViewById(R.id.bt_back);
+        btBack.setOnClickListener(this);
     }
 
 
@@ -69,7 +85,7 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imgv_header_setting:
-                Toast.makeText(mBaseActivity, "head", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mBaseFragmentActivity, "head", Toast.LENGTH_SHORT).show();
                 mHeadPopWindow = new HeadPopWindow(InfoActivity.this, driverLayout);
                 mHeadPopWindow.setWidth(driverLayout.getWidth());
                 mHeadPopWindow.setHeight(600);
@@ -82,6 +98,9 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener, 
                 mHeadPopWindow.showAsDropDown(mTextViewForPop);
                 mHeadPopWindow.setOnPopwindowClickListener(this);
                 break;
+            case R.id.bt_back:
+                this.finish();
+                break;
         }
     }
 
@@ -89,16 +108,30 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_CODE_TAKE_PHOTO:
-                onTakePhotoFinished(resultCode, data);
-                break;
-            case REQUEST_CODE_CLIP_PHOTO:
-                onClipPhotoFinished(requestCode, resultCode, data);
-                break;
+
+        if (requestCode == REQUEST_CODE_TAKE_PHOTO) {
+            onTakePhotoFinished(resultCode, data);
+        } else if (requestCode == REQUEST_CODE_CLIP_PHOTO) {
+            onClipPhotoFinished(requestCode, resultCode, data);
+        } else if (requestCode == REQUEST_CODE_GALLARY_CROP) {
+
+            try {
+                Uri uri = data.getData();
+                ContentResolver cr = this.getContentResolver();
+                bmp = BitmapFactory.decodeStream(cr.openInputStream(uri));
+                mHeadPhoto = SaveBMUtil.saveMyBitmap(bmp, "tx" + System.currentTimeMillis());
+                clipPhoto(Uri.fromFile(mHeadPhoto));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //保存图片到本地，随后准备上传
+
 
         }
+
+
     }
+
 
     //拍照返回
     private void onTakePhotoFinished(int resultCode, Intent data) {
@@ -142,7 +175,6 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener, 
             Toast.makeText(this, "take photo failed", Toast.LENGTH_SHORT)
                     .show();
         } else {
-
             Bitmap bm = BitmapFactory.decodeFile(mHeadPhoto.getAbsolutePath()
                     + "tmp");
             headImageView.setImageBitmap(bm);
@@ -172,7 +204,6 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener, 
 //                .getAbsolutePath();
 //        mHeadPhoto = new File(sdPath, System.currentTimeMillis() + ".tmp");
         Uri uri = Uri.fromFile(mHeadPhoto);
-
         //跳转到我们系统的相机界面
         Intent newIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //最终把拍摄的相片，输出到uri指向
@@ -188,6 +219,14 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void getPhotoByAlbums() {
+        chooseFormAlbums();
 
+    }
+
+    public void chooseFormAlbums() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_CODE_GALLARY_CROP);
     }
 }

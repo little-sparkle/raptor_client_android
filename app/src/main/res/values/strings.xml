@@ -29,6 +29,14 @@
     <string name="change">更改密码</string>
     <string name="about">关于</string>
     <string name="logout">退出登录</string>
+    <string name="voice">音效开关</string>
+    <string name="security">账号与安全</string>
+    <string name="journey">我的行程</string>
+    <string name="guide">用户指南</string>
+    <string name="clause">法律条款</string>
+    <string name="register">注册</string>
+    <string name="verification">验证码</string>
+    <string name="send_verification">发送验证码</string>
 
 
 </resources>

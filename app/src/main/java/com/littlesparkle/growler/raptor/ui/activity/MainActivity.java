@@ -3,14 +3,17 @@ package com.littlesparkle.growler.raptor.ui.activity;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.amap.api.location.AMapLocation;
@@ -30,11 +33,15 @@ import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
+import com.littlesparkle.growler.library.http.Request;
+import com.littlesparkle.growler.library.http.converter.ConvertFactory;
 import com.littlesparkle.growler.raptor.R;
+import com.littlesparkle.growler.raptor.entity.PositionEntity;
 import com.littlesparkle.growler.raptor.listener.OnLocationGetListener;
 import com.littlesparkle.growler.raptor.map.LocationTask;
 import com.littlesparkle.growler.raptor.map.MarkerTask;
 import com.littlesparkle.growler.raptor.map.SearchTask;
+import com.littlesparkle.growler.raptor.ui.views.TimerPickerPopWindow;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -43,6 +50,8 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+
+import okhttp3.RequestBody;
 
 
 public class MainActivity extends HandlerActivity implements
@@ -55,6 +64,16 @@ public class MainActivity extends HandlerActivity implements
     private Button menuButton = null;
     private TextView mTextViewFrom = null;
     private TextView mTextViewTo = null;
+    private RelativeLayout mRelativeTime = null;
+    private Button mButtonCallNow = null;
+    private Button mButtonCallLater = null;
+    private Button mButtonShunFengChe = null;
+    private Button mButtonKuaiChe = null;
+    private LinearLayout mLinearNowOrLater = null;
+    private TextView mTextViewTimeCheck = null;
+    private RelativeLayout mRelativePickContent = null;
+    private TimerPickerPopWindow timerPickerPopWindow = null;
+
 
     private Drawer mDrawer = null;
     private IProfile mProfile = null;
@@ -95,7 +114,6 @@ public class MainActivity extends HandlerActivity implements
                     @Override
                     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
                         startActivity(InfoActivity.class);
-
                         return false;
                     }
 
@@ -107,6 +125,7 @@ public class MainActivity extends HandlerActivity implements
                 .build();
     }
 
+    //设置侧滑菜单
     private void initDrawer() {
         mDrawer = new DrawerBuilder()
                 .withActivity(this)
@@ -144,7 +163,7 @@ public class MainActivity extends HandlerActivity implements
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch (position) {
                             case 0:
-
+                                startActivity(HistoricalJourneyActivity.class);
                                 break;
                             case 1:
 
@@ -170,16 +189,12 @@ public class MainActivity extends HandlerActivity implements
         mMapView.onCreate(savedInstanceState);
         initAccountHeader();
         initDrawer();
-
-        System.out.println("MainActivity.onCreate");
-
     }
 
     public void moveToLatLng(LatLng latLng) {
         CameraUpdate cameraUpdate = CameraUpdateFactory.changeLatLng(latLng);
         mAMap.moveCamera(CameraUpdateFactory.zoomTo(18));
         mAMap.moveCamera(cameraUpdate);
-        System.out.println("MainActivity.moveToLatLng");
     }
 
     @Override
@@ -190,6 +205,7 @@ public class MainActivity extends HandlerActivity implements
     @Override
     public int setActivityContentView() {
         return R.layout.activity_main;
+
     }
 
 
@@ -201,24 +217,37 @@ public class MainActivity extends HandlerActivity implements
 
     @Override
     public void initView() {
-
         mMapView = (MapView) this.findViewById(R.id.mapView);
         menuButton = (Button) this.findViewById(R.id.bt_menu);
         mTextViewFrom = (TextView) this.findViewById(R.id.tv_from);
         mTextViewTo = (TextView) this.findViewById(R.id.tv_to);
+        mRelativeTime = (RelativeLayout) this.findViewById(R.id.relativeTime);
+        mButtonCallLater = (Button) this.findViewById(R.id.call_car_later);
+        mButtonShunFengChe = (Button) this.findViewById(R.id.bt_shunfengche);
+        mButtonCallNow = (Button) this.findViewById(R.id.call_car_now);
+        mButtonKuaiChe = (Button) this.findViewById(R.id.bt_kuaiche);
+        mLinearNowOrLater = (LinearLayout) this.findViewById(R.id.linear_Now_Later);
+        mTextViewTimeCheck = (TextView) this.findViewById(R.id.check_time);
+        mRelativePickContent = (RelativeLayout) this.findViewById(R.id.relative_pick_content);
+        timerPickerPopWindow = new TimerPickerPopWindow(this, mRelativePickContent);
+
+        mButtonCallNow.setOnClickListener(this);
+        mButtonCallLater.setOnClickListener(this);
         mTextViewTo.setOnClickListener(this);
         mTextViewFrom.setOnClickListener(this);
+        mButtonShunFengChe.setOnClickListener(this);
+        mButtonKuaiChe.setOnClickListener(this);
         menuButton.setOnClickListener(this);
+        mTextViewTimeCheck.setOnClickListener(this);
 
         if (mAMap == null) {
             mAMap = mMapView.getMap();
         }
-
         mAMap.setOnCameraChangeListener(this);
         mAMap.setOnMapLoadedListener(this);
-        mSearchTask = new SearchTask(mBaseActivity.getApplicationContext());
+        mSearchTask = new SearchTask(mBaseFragmentActivity.getApplicationContext());
         mMarkerTask = new MarkerTask(mAMap);
-        mLocationTask = LocationTask.getInstance(mAMap, mBaseActivity.getApplicationContext(), this);
+        mLocationTask = LocationTask.getInstance(mAMap, mBaseFragmentActivity.getApplicationContext(), this);
     }
 
 
@@ -233,7 +262,6 @@ public class MainActivity extends HandlerActivity implements
     protected void onResume() {
         super.onResume();
         mMapView.onResume();
-        System.out.println("MainActivity.onResume");
     }
 
 
@@ -241,14 +269,12 @@ public class MainActivity extends HandlerActivity implements
     protected void onPause() {
         super.onPause();
         locationAndMove = true;
-        System.out.println("MainActivity.onPause");
         mMapView.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        System.out.println("MainActivity.onDestroy");
         mLocationTask.stopLocation();
         mMapView.onDestroy();
     }
@@ -258,17 +284,15 @@ public class MainActivity extends HandlerActivity implements
     public void onLocationChanged(AMapLocation amapLocation) {
         if (amapLocation != null) {
             if (amapLocation.getErrorCode() == 0) {
-                //定位成功回调信息，设置相关消息
-                amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
-                amapLocation.getLatitude();//获取纬度
-                amapLocation.getLongitude();//获取经度
-                amapLocation.getAccuracy();//获取精度信息
+//                定位成功回调信息，设置相关消息
                 LatLng latLng = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
 //                判断用户是否拖动了地图，如果拖动了，则不进行视图的移动
                 if (locationAndMove) {
                     moveToLatLng(latLng);
                     mSearchTask.searchByLatLng(latLng);
                 }
+
+//                有待更改，这里是在定位成功后进行加marker
                 mMarkerTask.addMainMarker(latLng);
                 mMarkerTask.addCarMarker(latLng);
             } else {
@@ -287,12 +311,44 @@ public class MainActivity extends HandlerActivity implements
             case R.id.bt_menu:
 //                这里需要进行判断是否登录过了，如果没有，跳转到登陆界面
                 mDrawer.openDrawer();
-                startActivity(LoginActivity.class);
+//                startActivity(LoginActivity.class);
                 break;
             case R.id.tv_to:
                 Intent intent = new Intent(this, DestinationActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_DESTINATION);
                 break;
+            case R.id.call_car_now:
+
+                mRelativeTime.setVisibility(View.GONE);
+
+                break;
+            case R.id.call_car_later:
+
+                mRelativeTime.setVisibility(View.VISIBLE);
+
+                break;
+            case R.id.bt_shunfengche:
+                mLinearNowOrLater.setVisibility(View.VISIBLE);
+                break;
+            case R.id.bt_kuaiche:
+                mLinearNowOrLater.setVisibility(View.GONE);
+                mRelativeTime.setVisibility(View.GONE);
+                break;
+
+            case R.id.check_time:
+//                timerPickerPopWindow = new TimerPickerPopWindow(this, mRelativePickContent);
+                timerPickerPopWindow.setWidth(mRelativePickContent.getWidth());
+                timerPickerPopWindow.setHeight(1200);
+                timerPickerPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+
+                    }
+                });
+                timerPickerPopWindow.showAsDropDown(mRelativePickContent);
+
+                break;
+
         }
     }
 
@@ -321,6 +377,7 @@ public class MainActivity extends HandlerActivity implements
         centerLatlng = cameraPosition.target;
         mSearchTask.setOnLocationGetListener(this);
         mSearchTask.searchByLatLng(centerLatlng);
+
     }
 
     @Override
@@ -335,13 +392,12 @@ public class MainActivity extends HandlerActivity implements
         mPositionMark = mAMap.addMarker(markerOptions);
         mPositionMark.setPositionByPixels(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
         mLocationTask.LocationByTime(40000);
-        System.out.println("MainActivity.onMapLoaded");
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        System.out.println("MainActivity.onStop");
         locationAndMove = true;
     }
 
@@ -350,6 +406,22 @@ public class MainActivity extends HandlerActivity implements
     public void onLocationGet(RegeocodeResult regeocodeResult) {
         String address = regeocodeResult.getRegeocodeAddress().getFormatAddress();
         mTextViewFrom.setText(address);
+
     }
+
+    @Override
+    public void onBackPressed() {
+
+        if (mDrawer.isDrawerOpen()) {
+            mDrawer.closeDrawer();
+        } else if (timerPickerPopWindow.isShowing()) {
+            timerPickerPopWindow.dismiss();
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
+
 }
 

@@ -24,7 +24,7 @@ import java.io.File;
  * Created by dell on 2016/7/4.
  */
 public class HeadPopWindow extends PopupWindow implements View.OnClickListener {
-    private InfoActivity mSettingActivity;
+    private InfoActivity mInfoActivity;
     private View mContentView;
     private LayoutInflater mLayoutInflater;
 
@@ -41,7 +41,7 @@ public class HeadPopWindow extends PopupWindow implements View.OnClickListener {
     private File mHeadPhoto = null;
 
     public HeadPopWindow(InfoActivity infoActivity, ViewGroup viewGroup) {
-        mSettingActivity = infoActivity;
+        mInfoActivity = infoActivity;
         mLayoutInflater = infoActivity.mLayoutInflater;
         mContentView = mLayoutInflater.inflate(R.layout.head_popwindow, viewGroup, false);
         this.setContentView(mContentView);
@@ -80,7 +80,7 @@ public class HeadPopWindow extends PopupWindow implements View.OnClickListener {
                 this.dismiss();
                 break;
             case R.id.tv_photo:
-                Toast.makeText(mSettingActivity, "photo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mInfoActivity, "photo", Toast.LENGTH_SHORT).show();
                 mOnPopwindowClickListener.getPhotoByAlbums();
                 break;
             case R.id.tv_camera:

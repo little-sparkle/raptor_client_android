@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -31,8 +30,8 @@
         <activity android:name=".ui.activity.InfoActivity"/>
         <activity android:name=".ui.activity.DestinationActivity"/>
         <activity android:name=".ui.activity.LoginActivity"/>
-        <activity android:name=".ui.activity.AboutActivity"/>
         <activity android:name=".ui.activity.SettingActivity"/>
+        <activity android:name=".ui.activity.HistoricalJourneyActivity"/>
 
         <service android:name="com.amap.api.location.APSService"/>
 
@@ -40,7 +39,8 @@
             android:name="com.amap.api.v2.apikey"
             android:value="aae8b70859438b363a87fc07a5fcfb88"/>
 
-
+        <activity android:name=".ui.activity.RegisterActivity">
+        </activity>
     </application>
 
 </manifest>

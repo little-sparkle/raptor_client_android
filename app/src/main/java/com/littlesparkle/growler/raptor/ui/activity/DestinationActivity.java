@@ -59,9 +59,9 @@ public class DestinationActivity extends HandlerActivity implements TextWatcher,
         mListView = (ListView) this.findViewById(R.id.lv_destination);
         mListView.setOnItemClickListener(this);
         if (mItemLvDestinationAdapter == null) {
-            mItemLvDestinationAdapter = new ItemLvDestinationAdapter(mBaseActivity, entities);
+            mItemLvDestinationAdapter = new ItemLvDestinationAdapter(mBaseFragmentActivity, entities);
         }
-        mPoiSearchTask = new PoiSearchTask(mBaseActivity, mItemLvDestinationAdapter);
+        mPoiSearchTask = new PoiSearchTask(mBaseFragmentActivity, mItemLvDestinationAdapter);
         mListView.setAdapter(mItemLvDestinationAdapter);
     }
 

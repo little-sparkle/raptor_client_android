@@ -8,17 +8,17 @@
     <RelativeLayout
         android:id="@+id/relative_title"
         android:layout_width="match_parent"
-        android:layout_height="50dp" android:background="#fff">
+        android:layout_height="40dp" android:background="#fff">
         <Button
             android:id="@+id/bt_back_setting"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:background="#555555"/>
         <TextView
             android:layout_width="200dp"
-            android:layout_height="35dp"
+            android:layout_height="25dp"
             android:layout_alignTop="@+id/bt_back_setting"
             android:layout_centerHorizontal="true"
             android:gravity="center"
@@ -27,141 +27,199 @@
         />
     </RelativeLayout>
 
-
     <RelativeLayout
-        android:id="@+id/relative_Common_address"
+        android:id="@+id/relative_security"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/relative_title"
-        android:layout_marginTop="25dp"
-        android:background="#fff">
-
+        android:layout_marginTop="20dp"
+        android:background="#FFF">
         <TextView
+            android:id="@+id/tv_security"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:gravity="center"
-            android:text="@string/Common_address"
-            android:textSize="16sp"/>
+            android:layout_marginStart="10dp"
+            android:text="@string/security"/>
 
         <ImageView
-            android:layout_width="10dp"
-            android:layout_height="20dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_alignTop="@+id/tv_security"
             android:layout_marginEnd="15dp"
-            android:background="#561498"/>
-
+            android:background="#631198"/>
     </RelativeLayout>
     <RelativeLayout
-        android:id="@+id/relative_version_update"
+        android:id="@+id/relative_address"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#fff"
-        android:layout_below="@+id/relative_Common_address" android:layout_alignParentStart="true">
-
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relative_security" android:background="#FFF">
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_address"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:gravity="center"
-            android:text="@string/update"
-            android:textSize="16sp"/>
+            android:layout_marginStart="10dp"
+            android:text="@string/Common_address"/>
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="10dp"
-            android:layout_height="20dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/tv_address"
+            android:layout_marginEnd="15dp"
+            android:background="#631198"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relative_voice"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relative_address"
+        android:background="#FFF">
+        <TextView
+            android:id="@+id/tv_voice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp" android:background="#561498"/>
+            android:layout_marginStart="10dp"
+            android:text="@string/voice"/>
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/tv_voice"
+            android:layout_marginEnd="15dp"
+            android:background="#631198"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_guide"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relative_voice"
+        android:layout_marginTop="20dp"
+        android:background="#FFF">
+        <TextView
+            android:id="@+id/tv_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:text="@string/guide"/>
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/tv_guide"
+            android:layout_marginEnd="15dp"
+            android:background="#631198"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_version"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relative_guide"
+        android:layout_marginTop="20dp"
+        android:background="#FFF">
         <TextView
             android:id="@+id/tv_version"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_alignTop="@+id/textView"
-            android:layout_marginEnd="20dp"
-            android:layout_toStartOf="@+id/imageView" android:gravity="center"
-            android:text="V1.0.1_128"/>
-
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/relative_change_password"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#fff"
-        android:layout_below="@+id/relative_about_setting" android:layout_alignParentStart="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:gravity="center"
-            android:text="@string/change"
-            android:textSize="16sp"/>
+            android:layout_marginStart="10dp"
+            android:text="@string/update"/>
 
         <ImageView
-            android:layout_width="10dp"
-            android:layout_height="20dp"
+            android:id="@+id/imageView"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp"
-            android:background="#561498"/>
-
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/relative_about_setting"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#fff"
-        android:layout_below="@+id/relative_version_update" android:layout_alignParentStart="true">
+            android:layout_alignTop="@+id/tv_version"
+            android:layout_marginEnd="15dp" android:background="#631198"/>
 
         <TextView
+            android:id="@+id/tv_version_number"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:gravity="center"
-            android:text="@string/about"
-            android:textSize="16sp"/>
-
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="20dp"
-            android:layout_alignParentEnd="true"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
-            android:background="#561498"/>
+            android:layout_toStartOf="@+id/imageView"
+            android:text="V1.0.1_136"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relative_clause"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true" android:layout_below="@+id/relative_version"
+        android:background="#FFF">
+        <TextView
+            android:id="@+id/tv_clause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:text="@string/clause"/>
 
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/tv_clause"
+            android:layout_marginEnd="15dp"
+            android:background="#631198"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relative_about"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relative_clause" android:background="#FFF">
+        <TextView
+            android:id="@+id/tv_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:text="@string/about"/>
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/tv_about"
+            android:layout_marginEnd="15dp"
+            android:background="#631198"/>
     </RelativeLayout>
 
 
     <RelativeLayout
         android:id="@+id/relative_logout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="35dp"
-        android:background="#fff">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="@string/logout"
-            android:textSize="18sp"/>
+        android:layout_height="40dp"
+        android:background="#FFF" android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" android:layout_marginBottom="22dp">
 
+        <TextView
+            android:text="@string/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 
 </RelativeLayout>

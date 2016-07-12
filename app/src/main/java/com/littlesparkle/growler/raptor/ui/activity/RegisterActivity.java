@@ -3,25 +3,21 @@ package com.littlesparkle.growler.raptor.ui.activity;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.littlesparkle.growler.library.activity.HandlerActivity;
 import com.littlesparkle.growler.raptor.R;
 
-public class SettingActivity extends HandlerActivity {
+public class RegisterActivity extends HandlerActivity {
 
-    private RelativeLayout mRelativeLayout_about;
 
     @Override
-    protected void onHandlerMessage(Message msg) {
+    protected void onHandlerMessage(Message message) {
 
     }
 
     @Override
     public int setActivityContentView() {
-        return R.layout.activity_setting;
+        return R.layout.activity_register;
     }
 
     @Override
@@ -33,6 +29,4 @@ public class SettingActivity extends HandlerActivity {
     public void initView() {
 
     }
-
-
 }

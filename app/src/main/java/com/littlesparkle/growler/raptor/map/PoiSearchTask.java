@@ -41,6 +41,8 @@ public class PoiSearchTask implements PoiSearch.OnPoiSearchListener {
                 return;
             }
             List<String> entities = new ArrayList<>();
+
+
             for (PoiItem poiItem : pois) {
                 PositionEntity entity = new PositionEntity(poiItem.getLatLonPoint().getLatitude(),
                         poiItem.getLatLonPoint().getLongitude(), poiItem.getTitle()

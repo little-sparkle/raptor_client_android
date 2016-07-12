@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:background="#fff"
-                android:padding="10dp">
+                android:layout_height="98dp"
+                android:background="#fff">
+
     <TextView
         android:id="@+id/tv_time_journey"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
         android:gravity="center_vertical"
         android:text="今天6：54"
     />
     <ImageView
         android:id="@+id/imgv_journey_from"
-        android:layout_width="10dp"
-        android:layout_height="20dp"
+        android:layout_width="15dp"
+        android:layout_height="19dp"
         android:layout_alignStart="@+id/tv_time_journey"
         android:layout_centerVertical="true"
-        android:background="#546978"/>
+        android:background="@drawable/marker_from"/>
     <ImageView
 
         android:id="@+id/imgv_journey_to"
-        android:layout_width="10dp"
-        android:layout_height="20dp"
-        android:layout_alignParentBottom="true"
+        android:layout_width="15dp"
+        android:layout_height="19dp"
         android:layout_alignParentStart="true"
-        android:background="#546978"/>
+        android:layout_below="@+id/imgv_journey_from"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp" android:background="@drawable/marker_to"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="15dp"/>
@@ -52,13 +55,14 @@
         android:singleLine="true"
         android:text="河北省廊坊市三河金燕大街速八酒店（河北燕郊中美医院附近）"
     />
-    <Button
+    <ImageView
         android:id="@+id/button"
-        android:layout_width="10dp"
-        android:layout_height="15dp"
+        android:layout_width="14.6dp"
+        android:layout_height="14.6dp"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/tv_journey_from"
-        android:background="#996236"/>
+        android:layout_marginRight="10dp"
+        android:background="@drawable/right_arrow"/>
 
     <TextView
         android:id="@+id/state_journey"
@@ -66,5 +70,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tv_time_journey"
         android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
         android:text="已完成"/>
 </RelativeLayout>

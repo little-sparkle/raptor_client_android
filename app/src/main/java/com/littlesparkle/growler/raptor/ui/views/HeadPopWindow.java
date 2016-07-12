@@ -38,8 +38,6 @@ public class HeadPopWindow extends PopupWindow implements View.OnClickListener {
     private TextView photoTextview = null;
 
 
-    private File mHeadPhoto = null;
-
     public HeadPopWindow(InfoActivity infoActivity, ViewGroup viewGroup) {
         mInfoActivity = infoActivity;
         mLayoutInflater = infoActivity.mLayoutInflater;

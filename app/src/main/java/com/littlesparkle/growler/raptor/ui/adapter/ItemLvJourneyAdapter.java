@@ -70,7 +70,7 @@ public class ItemLvJourneyAdapter extends BaseAdapter {
         private ImageView imgvJourneyTo;
         private TextView tvJourneyFrom;
         private TextView tvJourneyTo;
-        private Button button;
+        private ImageView mImageView;
         private TextView stateJourney;
 
 
@@ -80,7 +80,7 @@ public class ItemLvJourneyAdapter extends BaseAdapter {
             imgvJourneyTo = (ImageView) view.findViewById(R.id.imgv_journey_to);
             tvJourneyFrom = (TextView) view.findViewById(R.id.tv_journey_from);
             tvJourneyTo = (TextView) view.findViewById(R.id.tv_journey_to);
-            button = (Button) view.findViewById(R.id.button);
+            mImageView = (ImageView) view.findViewById(R.id.button);
             stateJourney = (TextView) view.findViewById(R.id.state_journey);
         }
     }

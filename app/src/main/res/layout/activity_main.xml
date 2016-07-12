@@ -4,64 +4,62 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/main_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:orientation="horizontal">
+        android:layout_height="46dp">
 
-        <Button
+        <ImageView
             android:id="@+id/bt_menu"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:background="#f047f0"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/menu"
+
         />
-        <Button
+        <ImageView
             android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="8"
-            android:background="#48f8"
-            android:clickable="false"/>
-        <Button
+            android:layout_width="24dp"
+            android:layout_height="19dp"
+            android:layout_alignTop="@+id/bt_menu"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/main_car"
+            android:clickable="false"
+            android:gravity="center"/>
+        <ImageView
             android:id="@+id/bt_message"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:background="#f047f0"
-        />
-    </LinearLayout>
-    <RelativeLayout
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/title"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/message"/>
+    </RelativeLayout>
+    <RadioGroup
         android:id="@+id/main_navi_bar"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="43dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/main_title_bar">
-        <Button
+        android:layout_below="@+id/main_title_bar"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <RadioButton
             android:id="@+id/bt_kuaiche"
-            android:layout_width="100dp"
+            android:layout_width="75dp"
             android:layout_height="30dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:background="#548961"
-            android:text="出租车"
-            android:textColor="#000"
-            android:textSize="12sp"/>
-        <Button
+            android:layout_marginLeft="85dp"
+            android:background="@drawable/chuzuche"
+            android:button="@null"/>
+        <RadioButton
             android:id="@+id/bt_shunfengche"
-            android:layout_width="120dp"
+            android:layout_width="75dp"
             android:layout_height="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="40dp"
-            android:layout_toEndOf="@+id/bt_kuaiche"
-            android:background="#ff0"
-            android:text="顺风车"
-            android:textColor="#000"
-            android:textSize="12sp"/>
+            android:layout_marginLeft="36dp"
+            android:background="@drawable/shunfengche" android:button="@null"/>
 
-    </RelativeLayout>
+    </RadioGroup>
 
 
     <com.amap.api.maps2d.MapView
@@ -71,52 +69,74 @@
         android:layout_above="@+id/from_and_to" android:layout_below="@+id/main_navi_bar">
     </com.amap.api.maps2d.MapView>
 
-    <LinearLayout
-        android:id="@+id/linear_Now_Later"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:layout_above="@+id/relativeTime"
-        android:layout_alignParentStart="true" android:background="#3542"
-        android:orientation="horizontal" android:visibility="gone">
-        <Button
+
+    <RadioGroup android:id="@+id/linear_Now_Later"
+                android:layout_width="134dp"
+                android:layout_height="30dp"
+                android:layout_above="@+id/relativeTime"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10.5dp"
+                android:layout_marginRight="10.5dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+        <RadioButton
             android:id="@+id/call_car_now"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#956"/>
-        <Button
+            android:background="@drawable/bt_now"
+            android:button="@null"
+            android:checked="true"/>
+
+        <RadioButton
             android:id="@+id/call_car_later"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#892132"/>
-    </LinearLayout>
+            android:background="@drawable/bt_later"
+            android:button="@null"/>
+    </RadioGroup>
+
 
     <RelativeLayout
         android:id="@+id/from_and_to"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="112.5dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:layout_marginBottom="10.5dp"
+        android:layout_marginLeft="10.5dp"
+        android:layout_marginRight="10.5dp"
         android:background="#fff">
+
+
         <TextView
             android:id="@+id/tv_from"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center"/>
+            android:layout_height="56dp"
+            android:drawableLeft="@drawable/from_image"
+            android:gravity="center_vertical"
+            android:padding="14.5dp"
+            android:textColor="#252525"
+            android:textSize="14sp"/>
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
             android:layout_above="@+id/tv_to"
             android:layout_alignParentStart="true"
-            android:background="#000"/>
+            android:background="#f0f0f0"/>
         <TextView
             android:id="@+id/tv_to"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="56dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:gravity="center"/>
+            android:drawableLeft="@drawable/to_image"
+            android:gravity="center_vertical"
+            android:hint="@string/want_to_go"
+            android:padding="14.5dp"
+            android:textColorHint="#fbcc00"
+            android:textSize="14sp"/>
         <Button
             android:id="@+id/bt_call"
             android:layout_width="45dp"
@@ -124,19 +144,24 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="#568127"/>
+
+
         <RelativeLayout
             android:id="@+id/relative_pick_content"
             android:layout_width="match_parent"
-            android:layout_height="0dp" android:layout_alignParentBottom="true"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"></RelativeLayout>
 
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/relativeTime"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="56dp"
         android:layout_above="@+id/from_and_to"
-        android:layout_alignParentStart="true" android:background="#FFF"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10.5dp"
+        android:layout_marginRight="10.5dp" android:background="#FFF"
         android:visibility="gone">
 
         <TextView

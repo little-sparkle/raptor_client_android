@@ -3,15 +3,16 @@ package com.littlesparkle.growler.raptor.ui.activity;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,10 +34,7 @@ import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
-import com.littlesparkle.growler.library.http.Request;
-import com.littlesparkle.growler.library.http.converter.ConvertFactory;
 import com.littlesparkle.growler.raptor.R;
-import com.littlesparkle.growler.raptor.entity.PositionEntity;
 import com.littlesparkle.growler.raptor.listener.OnLocationGetListener;
 import com.littlesparkle.growler.raptor.map.LocationTask;
 import com.littlesparkle.growler.raptor.map.MarkerTask;
@@ -51,8 +49,6 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
-import okhttp3.RequestBody;
-
 
 public class MainActivity extends HandlerActivity implements
         AMapLocationListener, View.OnClickListener, AMap.OnCameraChangeListener, AMap.OnMapLoadedListener, OnLocationGetListener {
@@ -61,14 +57,14 @@ public class MainActivity extends HandlerActivity implements
     private AMap mAMap = null;
 
     private Drawer mainDrawer = null;
-    private Button menuButton = null;
+    private ImageView menuButton = null;
     private TextView mTextViewFrom = null;
     private TextView mTextViewTo = null;
     private RelativeLayout mRelativeTime = null;
     private Button mButtonCallNow = null;
     private Button mButtonCallLater = null;
-    private Button mButtonShunFengChe = null;
-    private Button mButtonKuaiChe = null;
+    private RadioButton mButtonShunFengChe = null;
+    private RadioButton mButtonKuaiChe = null;
     private LinearLayout mLinearNowOrLater = null;
     private TextView mTextViewTimeCheck = null;
     private RelativeLayout mRelativePickContent = null;
@@ -95,12 +91,12 @@ public class MainActivity extends HandlerActivity implements
     // 设置侧滑菜单的header
     private void initAccountHeader() {
         mProfile = new ProfileDrawerItem()
-                .withIcon(R.mipmap.ic_launcher)
+                .withIcon(R.drawable.default_header_menu)
                 .withIdentifier(1);
 
         mAccountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.color.md_red_50)
+                .withHeaderBackground(R.color.md_white_1000)
                 .addProfiles(mProfile)
                 .withSelectionListEnabled(false)
                 .withTranslucentStatusBar(false)
@@ -138,22 +134,22 @@ public class MainActivity extends HandlerActivity implements
                 .addDrawerItems(
                         new PrimaryDrawerItem()
                                 .withName(R.string.drawer_item_xingcheng)
-                                .withIcon(R.mipmap.ic_launcher)
+                                .withIcon(R.drawable.trip)
                                 .withIdentifier(R.integer.slide_menu_xingcheng)
                                 .withSelectable(false),
                         new PrimaryDrawerItem()
                                 .withName(R.string.drawer_item_qianbao)
-                                .withIcon(R.mipmap.ic_launcher)
+                                .withIcon(R.drawable.purse)
                                 .withIdentifier(R.integer.slide_menu_qianbao)
                                 .withSelectable(false),
                         new PrimaryDrawerItem()
                                 .withName(R.string.drawer_item_kefu)
-                                .withIcon(R.mipmap.ic_launcher)
+                                .withIcon(R.drawable.customer)
                                 .withIdentifier(R.integer.slide_menu_kefu)
                                 .withSelectable(false),
                         new PrimaryDrawerItem()
                                 .withName(R.string.drawer_item_settings)
-                                .withIcon(R.mipmap.ic_launcher)
+                                .withIcon(R.drawable.setting)
                                 .withIdentifier(R.integer.slide_menu_settings)
                                 .withSelectable(false)
                 )
@@ -218,14 +214,14 @@ public class MainActivity extends HandlerActivity implements
     @Override
     public void initView() {
         mMapView = (MapView) this.findViewById(R.id.mapView);
-        menuButton = (Button) this.findViewById(R.id.bt_menu);
+        menuButton = (ImageView) this.findViewById(R.id.bt_menu);
         mTextViewFrom = (TextView) this.findViewById(R.id.tv_from);
         mTextViewTo = (TextView) this.findViewById(R.id.tv_to);
         mRelativeTime = (RelativeLayout) this.findViewById(R.id.relativeTime);
         mButtonCallLater = (Button) this.findViewById(R.id.call_car_later);
-        mButtonShunFengChe = (Button) this.findViewById(R.id.bt_shunfengche);
+        mButtonShunFengChe = (RadioButton) this.findViewById(R.id.bt_shunfengche);
         mButtonCallNow = (Button) this.findViewById(R.id.call_car_now);
-        mButtonKuaiChe = (Button) this.findViewById(R.id.bt_kuaiche);
+        mButtonKuaiChe = (RadioButton) this.findViewById(R.id.bt_kuaiche);
         mLinearNowOrLater = (LinearLayout) this.findViewById(R.id.linear_Now_Later);
         mTextViewTimeCheck = (TextView) this.findViewById(R.id.check_time);
         mRelativePickContent = (RelativeLayout) this.findViewById(R.id.relative_pick_content);
@@ -318,14 +314,10 @@ public class MainActivity extends HandlerActivity implements
                 startActivityForResult(intent, REQUEST_CODE_DESTINATION);
                 break;
             case R.id.call_car_now:
-
                 mRelativeTime.setVisibility(View.GONE);
-
                 break;
             case R.id.call_car_later:
-
                 mRelativeTime.setVisibility(View.VISIBLE);
-
                 break;
             case R.id.bt_shunfengche:
                 mLinearNowOrLater.setVisibility(View.VISIBLE);
@@ -388,7 +380,7 @@ public class MainActivity extends HandlerActivity implements
         markerOptions
                 .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
                         .decodeResource(getResources(),
-                                R.drawable.icon_loaction_start)));
+                                R.drawable.icon_location_start)));
         mPositionMark = mAMap.addMarker(markerOptions);
         mPositionMark.setPositionByPixels(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
         mLocationTask.LocationByTime(40000);

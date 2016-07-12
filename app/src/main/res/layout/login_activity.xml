@@ -84,5 +84,13 @@
         android:text="@string/login"
         android:textSize="20sp"/>
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:text="@string/to_register"
+        android:textColor="#f00"
+        android:textSize="16dp"/>
 </RelativeLayout>

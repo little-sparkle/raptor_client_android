@@ -37,6 +37,10 @@
     <string name="register">注册</string>
     <string name="verification">验证码</string>
     <string name="send_verification">发送验证码</string>
+    <string name="sex">性别</string>
+    <string name="level">等级</string>
+    <string name="profession">行业</string>
+    <string name="company">公司-职业</string>
 
 
 </resources>

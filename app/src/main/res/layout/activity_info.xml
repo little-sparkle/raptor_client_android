@@ -2,17 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#fff"
-                android:orientation="vertical">
+                android:background="#f0f0f0">
     <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="match_parent" android:layout_height="60dp">
+        android:id="@+id/relative_title_setting"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#fff">
         <Button
             android:id="@+id/bt_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/tv_title" android:background="#549863"/>
+            android:layout_alignTop="@+id/tv_title"
+            android:background="#549863"/>
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="240dp"
@@ -20,128 +22,284 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:background="#fff"
-            android:gravity="center" android:text="@string/title_information"
+            android:gravity="center"
+            android:text="@string/title_information"
             android:textSize="16sp"/>
-
     </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/setting_head"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/relativeLayout">
-        <TextView
-            android:layout_width="60dp"
-            android:layout_height="30dp"
+
+    <ScrollView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/relative_title_setting">
+        <LinearLayout
+            android:id="@+id/linearLayout_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true" android:layout_marginStart="15dp"
-            android:gravity="center_vertical"
-            android:text="@string/head"/>
-        <ImageView
-            android:id="@+id/imgv_header_setting"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_alignParentEnd="true" android:layout_centerVertical="true"
-            android:layout_marginEnd="35dp"
-            android:background="#646137"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/setting_nickname"
+            android:layout_below="@+id/relative_title_setting"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:id="@+id/setting_head"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/relativeLayout"
+                android:background="#fff">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true" android:layout_marginStart="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/head"/>
+                <ImageView
+                    android:id="@+id/imgv_header_setting"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentEnd="true" android:layout_centerVertical="true"
+                    android:layout_marginEnd="35dp"
+                    android:background="#646137"/>
+            </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#f0f0f0"/>
+            <RelativeLayout
+                android:id="@+id/setting_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/setting_head"
+                android:background="#fff">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/nickname"/>
+
+                <TextView
+                    android:id="@+id/setting_tv_nickname"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/tv_name" android:layout_marginEnd="35dp"
+                    android:gravity="right|center" android:text="范范范久明"/>
+
+
+            </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#f0f0f0"/>
+            <RelativeLayout
+                android:id="@+id/setting_age"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/setting_nickname" android:background="#fff">
+
+                <TextView
+                    android:id="@+id/tv_age"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/age"/>
+
+                <TextView
+                    android:id="@+id/setting_tv_age"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/tv_age" android:layout_marginEnd="35dp"
+                    android:gravity="right|center" android:text="18"/>
+
+            </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#f0f0f0"/>
+            <RelativeLayout
+                android:id="@+id/setting_number"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/setting_age" android:background="#fff">
+
+                <TextView
+                    android:id="@+id/tv_number"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/number"/>
+
+                <TextView
+                    android:id="@+id/setting_tv_number"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/tv_number" android:layout_marginEnd="35dp"
+                    android:gravity="right|center" android:text="18333611298"/>
+
+            </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#f0f0f0"/>
+            <RelativeLayout
+                android:id="@+id/setting_sex"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/setting_number" android:background="#fff">
+
+                <TextView
+                    android:id="@+id/tv_sex"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/sex"/>
+
+                <TextView
+                    android:id="@+id/setting_tv_sex"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/tv_sex"
+                    android:layout_marginEnd="35dp"
+                    android:gravity="right|center" android:text="男"/>
+
+            </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#f0f0f0"/>
+            <RelativeLayout
+                android:id="@+id/setting_level"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/setting_sex"
+                android:background="#fff">
+
+                <TextView
+                    android:id="@+id/tv_level"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/level"/>
+
+                <TextView
+                    android:id="@+id/setting_tv_level"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/tv_level"
+                    android:layout_marginEnd="35dp"
+                    android:gravity="right|center" android:text="优选会员"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/setting_profession"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/linearLayout_setting"
+                android:layout_marginTop="15dp" android:background="#fff">
+
+                <TextView
+                    android:id="@+id/tv_profession"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/profession"/>
+
+                <TextView
+                    android:id="@+id/setting_tv_profession"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/tv_profession"
+                    android:layout_marginEnd="35dp"
+                    android:gravity="right|center"
+                    android:text="请选择"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/setting_company"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/setting_profession"
+                android:background="#fff">
+
+                <TextView
+                    android:id="@+id/tv_company"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/company"/>
+
+                <TextView
+                    android:id="@+id/setting_tv_company"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/tv_company"
+                    android:layout_marginEnd="35dp"
+                    android:gravity="right|center"
+                    android:text="请选择"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/setting_driver"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/setting_company"
+                android:layout_marginTop="15dp"
+                android:background="#fff">
+
+                <TextView
+                    android:id="@+id/tv_driver"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/driver"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+    <TextView
+        android:id="@+id/text_for_pop"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/setting_head">
-
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
-            android:gravity="center_vertical"
-            android:text="@string/nickname"/>
-
-        <TextView
-            android:id="@+id/setting_tv_nickname"
-            android:layout_width="150dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tv_name" android:layout_marginEnd="35dp"
-            android:gravity="right|center" android:text="范范范久明"/>
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/setting_age"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true" android:layout_below="@+id/setting_nickname">
-
-        <TextView
-            android:id="@+id/tv_age"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
-            android:gravity="center_vertical"
-            android:text="@string/age"/>
-
-        <TextView
-            android:id="@+id/setting_tv_age"
-            android:layout_width="150dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tv_age" android:layout_marginEnd="35dp"
-            android:gravity="right|center" android:text="18"/>
-
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/setting_number"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true" android:layout_below="@+id/setting_age">
-
-        <TextView
-            android:id="@+id/tv_number"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
-            android:gravity="center_vertical"
-            android:text="@string/number"/>
-
-        <TextView
-            android:id="@+id/setting_tv_number"
-            android:layout_width="150dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tv_number" android:layout_marginEnd="35dp"
-            android:gravity="right|center" android:text="18333611298"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/setting_driver"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:id="@+id/tv_driver"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true" android:layout_marginStart="15dp"
-            android:gravity="center_vertical" android:text="@string/driver"/>
-        <TextView
-            android:id="@+id/text_for_pop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/tv_driver"/>
-    </RelativeLayout>
-
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"/>
 </RelativeLayout>

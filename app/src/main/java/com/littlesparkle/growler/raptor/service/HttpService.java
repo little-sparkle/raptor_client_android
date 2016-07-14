@@ -20,6 +20,8 @@ import rx.Observable;
  * Created by dell on 2016/7/10.
  */
 public interface HttpService {
+
+
     //上传位置
     @POST("/location/report")
     @FormUrlEncoded

@@ -52,6 +52,7 @@ public class LocationTask {
     }
 
     public void LocationByTime(int time) {
+
         mUiSettings.setMyLocationButtonEnabled(false);
         mAMap.setMyLocationEnabled(true);
         mAMapLocationClient.setLocationListener(mAMapLocationListener);

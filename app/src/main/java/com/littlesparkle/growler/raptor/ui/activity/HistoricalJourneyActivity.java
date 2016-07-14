@@ -3,6 +3,7 @@ package com.littlesparkle.growler.raptor.ui.activity;
 import android.os.Message;
 import android.widget.ListView;
 
+import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
 import com.littlesparkle.growler.raptor.R;
 import com.littlesparkle.growler.raptor.entity.JourneyEntity;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * Created by dell on 2016/7/7.
  */
-public class HistoricalJourneyActivity extends HandlerActivity {
+public class HistoricalJourneyActivity extends BaseFragmentActivity {
 
     private ListView mListView = null;
     private ItemLvJourneyAdapter mItemLvJourneyAdapter = null;
@@ -35,10 +36,7 @@ public class HistoricalJourneyActivity extends HandlerActivity {
 
     }
 
-    @Override
-    protected void onHandlerMessage(Message msg) {
 
-    }
 
     @Override
     public int setActivityContentView() {

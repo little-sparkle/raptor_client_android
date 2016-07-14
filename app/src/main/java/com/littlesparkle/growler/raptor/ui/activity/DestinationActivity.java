@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
 import com.littlesparkle.growler.raptor.R;
 import com.littlesparkle.growler.raptor.map.PoiSearchTask;
@@ -24,7 +25,7 @@ import java.util.List;
 /**
  * Created by dell on 2016/7/6.
  */
-public class DestinationActivity extends HandlerActivity implements TextWatcher, View.OnClickListener, AdapterView.OnItemClickListener {
+public class DestinationActivity extends BaseFragmentActivity implements TextWatcher, View.OnClickListener, AdapterView.OnItemClickListener {
     private EditText mEditText = null;
     private Button bt_search = null;
     private ListView mListView = null;
@@ -34,10 +35,7 @@ public class DestinationActivity extends HandlerActivity implements TextWatcher,
     private List<String> poiEntities = null;
 
 
-    @Override
-    protected void onHandlerMessage(Message msg) {
 
-    }
 
     @Override
     public int setActivityContentView() {

@@ -7,17 +7,15 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
 import com.littlesparkle.growler.raptor.R;
 
-public class SettingActivity extends HandlerActivity {
+public class SettingActivity extends BaseFragmentActivity {
 
     private RelativeLayout mRelativeLayout_about;
 
-    @Override
-    protected void onHandlerMessage(Message msg) {
 
-    }
 
     @Override
     public int setActivityContentView() {

@@ -7,21 +7,21 @@
     <RelativeLayout
         android:id="@+id/main_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="46dp">
+        android:layout_height="@dimen/main_title_bar_height">
 
         <ImageView
             android:id="@+id/bt_menu"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="11dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="@dimen/bt_menu_width"
+            android:layout_height="@dimen/bt_menu_width"
+            android:layout_marginLeft="@dimen/bt_menu_marginLeft"
+            android:layout_marginTop="@dimen/bt_menu_marginTop"
             android:background="@drawable/menu"
 
         />
         <ImageView
             android:id="@+id/title"
-            android:layout_width="24dp"
-            android:layout_height="19dp"
+            android:layout_width="@dimen/main_title_imgv_width"
+            android:layout_height="@dimen/main_title_imgv_height"
             android:layout_alignTop="@+id/bt_menu"
             android:layout_centerHorizontal="true"
             android:background="@drawable/main_car"
@@ -29,35 +29,35 @@
             android:gravity="center"/>
         <ImageView
             android:id="@+id/bt_message"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="@dimen/bt_menu_width"
+            android:layout_height="@dimen/bt_menu_width"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/title"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="@dimen/bt_message_marginEnd"
             android:background="@drawable/message"/>
     </RelativeLayout>
     <RadioGroup
         android:id="@+id/main_navi_bar"
         android:layout_width="match_parent"
-        android:layout_height="43dp"
+        android:layout_height="@dimen/main_navi_bar_height"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/main_title_bar"
         android:gravity="center_vertical"
         android:orientation="horizontal">
         <RadioButton
             android:id="@+id/bt_kuaiche"
-            android:layout_width="75dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/bt_kuaiche_width"
+            android:layout_height="@dimen/bt_kuaiche_height"
             android:layout_marginLeft="85dp"
             android:background="@drawable/chuzuche"
             android:button="@null"/>
         <RadioButton
             android:id="@+id/bt_shunfengche"
-            android:layout_width="75dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/bt_kuaiche_width"
+            android:layout_height="@dimen/bt_kuaiche_height"
             android:layout_marginLeft="36dp"
-            android:background="@drawable/shunfengche" android:button="@null"/>
+            android:background="@drawable/shunfengche"
+            android:button="@null"/>
 
     </RadioGroup>
 
@@ -66,17 +66,18 @@
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/from_and_to" android:layout_below="@+id/main_navi_bar">
+        android:layout_above="@+id/from_and_to"
+        android:layout_below="@+id/main_navi_bar">
     </com.amap.api.maps2d.MapView>
 
 
     <RadioGroup android:id="@+id/linear_Now_Later"
-                android:layout_width="134dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/radio_now_later"
+                android:layout_height="@dimen/bt_kuaiche_height"
                 android:layout_above="@+id/relativeTime"
                 android:layout_alignParentStart="true"
-                android:layout_marginLeft="10.5dp"
-                android:layout_marginRight="10.5dp"
+                android:layout_marginLeft="@dimen/now_later_from_to_margin"
+                android:layout_marginRight="@dimen/now_later_from_to_margin"
                 android:orientation="horizontal"
                 android:visibility="gone">
         <RadioButton
@@ -101,12 +102,12 @@
     <RelativeLayout
         android:id="@+id/from_and_to"
         android:layout_width="match_parent"
-        android:layout_height="112.5dp"
+        android:layout_height="@dimen/from_to_relative_height"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="10.5dp"
-        android:layout_marginLeft="10.5dp"
-        android:layout_marginRight="10.5dp"
+        android:layout_marginBottom="@dimen/now_later_from_to_margin"
+        android:layout_marginLeft="@dimen/now_later_from_to_margin"
+        android:layout_marginRight="@dimen/now_later_from_to_margin"
         android:background="#fff">
 
 
@@ -118,10 +119,10 @@
             android:gravity="center_vertical"
             android:padding="14.5dp"
             android:textColor="#252525"
-            android:textSize="14sp"/>
+            android:textSize="@dimen/text_size_small"/>
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="@dimen/divider_height"
             android:layout_above="@+id/tv_to"
             android:layout_alignParentStart="true"
             android:background="#f0f0f0"/>
@@ -136,14 +137,7 @@
             android:hint="@string/want_to_go"
             android:padding="14.5dp"
             android:textColorHint="#fbcc00"
-            android:textSize="14sp"/>
-        <Button
-            android:id="@+id/bt_call"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="#568127"/>
+            android:textSize="@dimen/text_size_small"/>
 
 
         <RelativeLayout
@@ -154,14 +148,19 @@
             android:layout_alignParentStart="true"></RelativeLayout>
 
     </RelativeLayout>
+
+
+
+
     <RelativeLayout
         android:id="@+id/relativeTime"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/relative_time_height"
         android:layout_above="@+id/from_and_to"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="10.5dp"
-        android:layout_marginRight="10.5dp" android:background="#FFF"
+        android:layout_marginLeft="@dimen/now_later_from_to_margin"
+        android:layout_marginRight="@dimen/now_later_from_to_margin"
+        android:background="#FFF"
         android:visibility="gone">
 
         <TextView
@@ -169,7 +168,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true" android:gravity="center"
+            android:layout_centerVertical="true"
+            android:gravity="center"
             android:text="请选择出发时间"/>
     </RelativeLayout>
 </RelativeLayout>

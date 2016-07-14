@@ -1,5 +1,22 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="text_size_small">14sp</dimen>
+
+
+    <dimen name="main_title_bar_height">46dp</dimen>
+    <dimen name="bt_menu_width">25dp</dimen>
+    <dimen name="bt_menu_marginLeft">11dp</dimen>
+    <dimen name="bt_menu_marginTop">10dp</dimen>
+    <dimen name="main_title_imgv_width">24dp</dimen>
+    <dimen name="main_title_imgv_height">19dp</dimen>
+    <dimen name="bt_message_marginEnd">10dp</dimen>
+    <dimen name="main_navi_bar_height">43dp</dimen>
+    <dimen name="bt_kuaiche_width">75dp</dimen>
+    <dimen name="bt_kuaiche_height">30dp</dimen>
+    <dimen name="radio_now_later">134dp</dimen>
+    <dimen name="now_later_from_to_margin">10.5dp</dimen>
+    <dimen name="divider_height">0.5dp</dimen>
+    <dimen name="relative_time_height">56dp</dimen>
+    <dimen name="from_to_relative_height">112.5dp</dimen>
 </resources>

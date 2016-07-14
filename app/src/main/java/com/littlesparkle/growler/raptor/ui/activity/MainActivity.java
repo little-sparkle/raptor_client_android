@@ -3,11 +3,14 @@ package com.littlesparkle.growler.raptor.ui.activity;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.PersistableBundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +18,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.amap.api.location.AMapLocation;
@@ -33,6 +37,8 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.igexin.sdk.PushManager;
+import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
 import com.littlesparkle.growler.raptor.R;
 import com.littlesparkle.growler.raptor.listener.OnLocationGetListener;
@@ -40,6 +46,7 @@ import com.littlesparkle.growler.raptor.map.LocationTask;
 import com.littlesparkle.growler.raptor.map.MarkerTask;
 import com.littlesparkle.growler.raptor.map.SearchTask;
 import com.littlesparkle.growler.raptor.ui.views.TimerPickerPopWindow;
+import com.littlesparkle.growler.raptor.utils.SystemStatusManager;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -50,7 +57,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 
-public class MainActivity extends HandlerActivity implements
+public class MainActivity extends BaseFragmentActivity implements
         AMapLocationListener, View.OnClickListener, AMap.OnCameraChangeListener, AMap.OnMapLoadedListener, OnLocationGetListener {
 
     private MapView mMapView = null;
@@ -69,7 +76,7 @@ public class MainActivity extends HandlerActivity implements
     private TextView mTextViewTimeCheck = null;
     private RelativeLayout mRelativePickContent = null;
     private TimerPickerPopWindow timerPickerPopWindow = null;
-
+//    private View footerView = null;
 
     private Drawer mDrawer = null;
     private IProfile mProfile = null;
@@ -88,11 +95,14 @@ public class MainActivity extends HandlerActivity implements
 
     private static LatLng centerLatlng = null;
 
+
     // 设置侧滑菜单的header
     private void initAccountHeader() {
         mProfile = new ProfileDrawerItem()
                 .withIcon(R.drawable.default_header_menu)
-                .withIdentifier(1);
+                .withIdentifier(1)
+                .withName("引擎");
+
 
         mAccountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -128,6 +138,10 @@ public class MainActivity extends HandlerActivity implements
                 .withTranslucentStatusBar(true)
 //                .withToolbar(mToolbar)
                 .withAccountHeader(mAccountHeader, true)
+//                .withFooter(R.layout.drawer_footer)
+                .withFooterClickable(true)
+                .withStickyFooterShadow(false)
+                .withStickyFooter(R.layout.drawer_footer)
                 .withActionBarDrawerToggle(true)
                 .withActionBarDrawerToggleAnimated(true)
                 .withHasStableIds(true)
@@ -176,12 +190,37 @@ public class MainActivity extends HandlerActivity implements
                     }
                 })
                 .build();
+        mDrawer.getStickyFooter().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mBaseFragmentActivity, "footer", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void setTranslucentStatus() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // 透明状态栏
+            getWindow().addFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            // 透明导航栏
+            getWindow().addFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            SystemStatusManager tintManager = new SystemStatusManager(this);
+            tintManager.setStatusBarTintEnabled(true);
+            // 设置状态栏的颜色
+            tintManager.setStatusBarTintResource(R.color.primary_light);
+            getWindow().getDecorView().setFitsSystemWindows(true);
+        }
     }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        setTranslucentStatus();
         super.onCreate(savedInstanceState);
+        PushManager.getInstance().initialize(this.getApplicationContext());
         mMapView.onCreate(savedInstanceState);
         initAccountHeader();
         initDrawer();
@@ -193,10 +232,7 @@ public class MainActivity extends HandlerActivity implements
         mAMap.moveCamera(cameraUpdate);
     }
 
-    @Override
-    protected void onHandlerMessage(Message msg) {
 
-    }
 
     @Override
     public int setActivityContentView() {
@@ -306,8 +342,8 @@ public class MainActivity extends HandlerActivity implements
         switch (v.getId()) {
             case R.id.bt_menu:
 //                这里需要进行判断是否登录过了，如果没有，跳转到登陆界面
-                mDrawer.openDrawer();
-//                startActivity(LoginActivity.class);
+//                mDrawer.openDrawer();
+                startActivity(LoginActivity.class);
                 break;
             case R.id.tv_to:
                 Intent intent = new Intent(this, DestinationActivity.class);
@@ -328,7 +364,6 @@ public class MainActivity extends HandlerActivity implements
                 break;
 
             case R.id.check_time:
-//                timerPickerPopWindow = new TimerPickerPopWindow(this, mRelativePickContent);
                 timerPickerPopWindow.setWidth(mRelativePickContent.getWidth());
                 timerPickerPopWindow.setHeight(1200);
                 timerPickerPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -340,6 +375,7 @@ public class MainActivity extends HandlerActivity implements
                 timerPickerPopWindow.showAsDropDown(mRelativePickContent);
 
                 break;
+
 
         }
     }
@@ -396,9 +432,23 @@ public class MainActivity extends HandlerActivity implements
 
     @Override
     public void onLocationGet(RegeocodeResult regeocodeResult) {
-        String address = regeocodeResult.getRegeocodeAddress().getFormatAddress();
-        mTextViewFrom.setText(address);
 
+
+        String address = null;
+        String pois = regeocodeResult.getRegeocodeAddress().getPois().get(0).toString();
+        String street = regeocodeResult.getRegeocodeAddress().getStreetNumber().getStreet();
+        String streetNumber = regeocodeResult.getRegeocodeAddress().getStreetNumber().getNumber();
+
+        String building = regeocodeResult.getRegeocodeAddress().getBuilding();
+        if (!TextUtils.isEmpty(building)) {
+            address = street + building;
+        } else if (!TextUtils.isEmpty(pois)) {
+            address = street + pois;
+        } else {
+            address = street + streetNumber;
+        }
+
+        mTextViewFrom.setText(address);
     }
 
     @Override

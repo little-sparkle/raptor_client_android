@@ -10,7 +10,8 @@
         <EditText
             android:id="@+id/EditText_destination"
             android:layout_width="match_parent"
-            android:layout_height="80dp"/>
+            android:layout_height="80dp"
+            android:background="@null"/>
         <Button
             android:id="@+id/search_destination"
             android:layout_width="40dp"
@@ -18,6 +19,11 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:background="#354891"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:background="#d3d3d3"
+            android:layout_height="@dimen/divider_height"
+            android:layout_alignBottom="@+id/EditText_destination"/>
     </RelativeLayout>
     <ListView
         android:id="@+id/lv_destination"

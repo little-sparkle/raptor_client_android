@@ -9,14 +9,14 @@
     <RelativeLayout
         android:id="@+id/relative_logo_activity"
         android:layout_width="match_parent"
-        android:layout_height="180dp">
+        android:layout_height="222dp">
         <ImageView
             android:id="@+id/imgv_logo_activity"
-            android:layout_width="60dp"
-            android:layout_height="45dp"
-            android:layout_centerHorizontal="true"
+            android:layout_width="64.6dp"
+            android:layout_height="68.3dp"
             android:layout_centerVertical="true"
-            android:background="#461589"/>
+            android:layout_marginLeft="148dp"
+            android:background="@drawable/car_login"/>
     </RelativeLayout>
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -31,11 +31,12 @@
             android:layout_height="50dp">
             <ImageView
                 android:id="@+id/imgv_number"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="20dp"
+                android:layout_height="23dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="15dp" android:background="#659321"/>
+                android:layout_marginStart="17.5dp"
+                android:background="@drawable/login_header"/>
             <EditText
                 android:id="@+id/edit_number"
                 android:layout_width="match_parent"
@@ -44,19 +45,20 @@
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/imgv_number"
                 android:background="@null"
-                android:hint="@string/phone_number"/>
+                android:hint="@string/phone_number"
+                android:textColorHint="#d3d3d3"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
             <ImageView
                 android:id="@+id/imgv_password"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="20dp"
+                android:layout_height="23dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="15dp"
-                android:background="#659321"/>
+                android:layout_marginStart="17.5dp"
+                android:background="@drawable/login_password"/>
             <EditText
                 android:id="@+id/edit_password"
                 android:layout_width="match_parent"
@@ -65,7 +67,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/imgv_password"
                 android:background="@null"
-                android:hint="@string/password_login"/>
+                android:hint="@string/password_login"
+                android:textColorHint="#d3d3d3"/>
 
         </RelativeLayout>
 
@@ -74,12 +77,12 @@
             android:layout_height="50dp">
             <ImageView
                 android:id="@+id/imgv_verification"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="20dp"
+                android:layout_height="23dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="15dp"
-                android:background="#659321"/>
+                android:layout_marginStart="17.5dp"
+                android:background="@drawable/verification_code"/>
             <EditText
                 android:id="@+id/edit_verification"
                 android:layout_width="match_parent"
@@ -88,7 +91,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/imgv_verification"
                 android:background="@null"
-                android:hint="@string/verification"/>
+                android:hint="@string/verification"
+                android:textColorHint="#d3d3d3"/>
             <TextView
                 android:id="@+id/send_verification"
                 android:layout_width="wrap_content"
@@ -103,10 +107,15 @@
 
     <Button
         android:id="@+id/bt_login"
-        android:layout_width="350dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="65dp"
-        android:background="#935487" android:text="@string/register"
-        android:textSize="20sp"
-        android:layout_below="@+id/linearLayout" android:layout_centerHorizontal="true"/>
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:background="#ffbc00"
+        android:text="@string/register"
+        android:textColor="#fff"
+        android:textSize="17sp"/>
 </RelativeLayout>

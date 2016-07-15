@@ -1,35 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/relative_edit"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="44dp">
+
+        <TextView
+
+            android:id="@+id/tv_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:text="北京"
+            android:textColor="#464646" android:textSize="13sp"/>
+
+        <ImageView
+            android:id="@+id/imgv_down_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tv_city"
+            android:background="@drawable/down_arrow"/>
         <EditText
             android:id="@+id/EditText_destination"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="6dp"
+            android:layout_toLeftOf="@+id/search_destination"
+            android:layout_toRightOf="@+id/tv_rules"
             android:background="@null"/>
-        <Button
+
+        <TextView
+            android:id="@+id/tv_rules"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/imgv_down_arrow"
+            android:background="#d3d3d3"/>
+        <TextView
             android:id="@+id/search_destination"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="#354891"/>
+            android:layout_marginRight="16dp"
+            android:text="搜索"
+            android:textColor="#ffbc00"
+            android:textSize="13sp"/>
         <TextView
             android:layout_width="match_parent"
-            android:background="#d3d3d3"
             android:layout_height="@dimen/divider_height"
-            android:layout_alignBottom="@+id/EditText_destination"/>
+            android:layout_alignBottom="@+id/EditText_destination"
+            android:background="#d3d3d3"/>
     </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/relative_common_address_destination"
+        android:layout_width="match_parent"
+        android:layout_height="53.3dp"
+        android:layout_below="@+id/relative_edit"
+        android:background="#fff"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/imgv_home_address"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="52dp"
+                android:background="@drawable/home"/>
+
+            <TextView
+                android:id="@+id/tv_home_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/imgv_home_address"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/set_home_address"
+                android:textColor="#464646"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:background="#d3d3d3"/>
+
+            <TextView
+                android:layout_alignParentBottom="true"
+                android:background="#d3d3d3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgv_company_address"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="48dp"
+                android:background="@drawable/company"/>
+
+            <TextView
+                android:id="@+id/tv_company_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/imgv_company_address"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/set_company_address"
+                android:textColor="#464646"
+                android:textSize="14sp"/>
+            <TextView
+                android:layout_alignParentBottom="true"
+                android:background="#d3d3d3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <TextView
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:background="#d3d3d3"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/lv_destination"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/relative_edit">
+        android:layout_below="@+id/relative_common_address_destination"
+        android:background="#FFF"
+        android:divider="#d3d3d3"
+        android:dividerHeight="0.5dp">
     </ListView>
 
-</RelativeLayout>
+</LinearLayout>

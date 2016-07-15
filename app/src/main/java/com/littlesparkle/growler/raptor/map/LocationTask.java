@@ -1,6 +1,7 @@
 package com.littlesparkle.growler.raptor.map;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -20,23 +21,23 @@ public class LocationTask {
     private AMapLocationListener mAMapLocationListener = null;
     private static LocationTask mLocation = null;
 
-    public static LocationTask getInstance(AMap aMap, Context context, AMapLocationListener aMapLocationListener) {
-        if (mLocation == null) {
-            synchronized (context) {
-                if (mLocation == null) {
-                    mLocation = new LocationTask(aMap, context, aMapLocationListener);
-                }
-            }
-        }
-        return mLocation;
-    }
+//    public static LocationTask getInstance(AMap aMap, Context context, AMapLocationListener aMapLocationListener) {
+//        if (mLocation == null) {
+//            synchronized (context) {
+//                if (mLocation == null) {
+//                    mLocation = new LocationTask(aMap, context, aMapLocationListener);
+//                }
+//            }
+//        }
+//        return mLocation;
+//    }
 
-    private LocationTask(AMap aMap, Context context, AMapLocationListener aMapLocationListener) {
+    public LocationTask(AMap aMap, Context context, AMapLocationListener aMapLocationListener) {
         mAMap = aMap;
         mUiSettings = aMap.getUiSettings();
         mContext = context;
         mAMapLocationListener = aMapLocationListener;
-        mAMapLocationClient = new AMapLocationClient(mContext.getApplicationContext());
+        mAMapLocationClient = new AMapLocationClient(mContext);
     }
 
     //    只定位一次
@@ -61,6 +62,7 @@ public class LocationTask {
         mAMapLocationClientOption.setInterval(time);
         mAMapLocationClient.setLocationOption(mAMapLocationClientOption);
         mAMapLocationClient.startLocation();
+
     }
 
     public void stopLocation() {

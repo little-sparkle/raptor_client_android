@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
 import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -39,7 +38,6 @@ import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.igexin.sdk.PushManager;
 import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
-import com.littlesparkle.growler.library.activity.HandlerActivity;
 import com.littlesparkle.growler.raptor.R;
 import com.littlesparkle.growler.raptor.listener.OnLocationGetListener;
 import com.littlesparkle.growler.raptor.map.LocationTask;
@@ -183,7 +181,6 @@ public class MainActivity extends BaseFragmentActivity implements
                                 break;
                             case 3:
                                 startActivity(SettingActivity.class);
-
                                 break;
                         }
                         return false;
@@ -224,14 +221,27 @@ public class MainActivity extends BaseFragmentActivity implements
         mMapView.onCreate(savedInstanceState);
         initAccountHeader();
         initDrawer();
+        mLocationTask.LocationByTime(40000);
     }
 
     public void moveToLatLng(LatLng latLng) {
+
         CameraUpdate cameraUpdate = CameraUpdateFactory.changeLatLng(latLng);
         mAMap.moveCamera(CameraUpdateFactory.zoomTo(18));
         mAMap.moveCamera(cameraUpdate);
-    }
+//        mAMap.animateCamera(cameraUpdate, 10000, new AMap.CancelableCallback() {
+//            @Override
+//            public void onFinish() {
+//
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//
+//            }
+//        });
 
+    }
 
 
     @Override
@@ -279,7 +289,7 @@ public class MainActivity extends BaseFragmentActivity implements
         mAMap.setOnMapLoadedListener(this);
         mSearchTask = new SearchTask(mBaseFragmentActivity.getApplicationContext());
         mMarkerTask = new MarkerTask(mAMap);
-        mLocationTask = LocationTask.getInstance(mAMap, mBaseFragmentActivity.getApplicationContext(), this);
+        mLocationTask =new LocationTask(mAMap, mBaseFragmentActivity.getApplicationContext(), this);
     }
 
 
@@ -314,11 +324,13 @@ public class MainActivity extends BaseFragmentActivity implements
     //定位回调
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
+
         if (amapLocation != null) {
             if (amapLocation.getErrorCode() == 0) {
 //                定位成功回调信息，设置相关消息
                 LatLng latLng = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
 //                判断用户是否拖动了地图，如果拖动了，则不进行视图的移动
+
                 if (locationAndMove) {
                     moveToLatLng(latLng);
                     mSearchTask.searchByLatLng(latLng);
@@ -419,7 +431,7 @@ public class MainActivity extends BaseFragmentActivity implements
                                 R.drawable.icon_location_start)));
         mPositionMark = mAMap.addMarker(markerOptions);
         mPositionMark.setPositionByPixels(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
-        mLocationTask.LocationByTime(40000);
+//        mLocationTask.LocationByTime(40000);
 
     }
 
@@ -432,6 +444,7 @@ public class MainActivity extends BaseFragmentActivity implements
 
     @Override
     public void onLocationGet(RegeocodeResult regeocodeResult) {
+
 
 
         String address = null;

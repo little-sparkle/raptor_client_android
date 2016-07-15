@@ -19,4 +19,8 @@
     <dimen name="divider_height">0.5dp</dimen>
     <dimen name="relative_time_height">56dp</dimen>
     <dimen name="from_to_relative_height">112.5dp</dimen>
+
+
+
+
 </resources>

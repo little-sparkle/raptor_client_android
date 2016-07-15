@@ -2,58 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="300dp"
-              android:background="#FFF"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:paddingTop="20dp">
     <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:background="#fff">
         <TextView
             android:id="@+id/tv_cancel_timer_picker"
-            android:layout_width="80dp"
-            android:layout_height="45dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="13.6dp"
             android:background="#fff"
-            android:gravity="center_vertical"
             android:text="取消"
-            android:textSize="16sp"/>
+            android:textColor="#464646"
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
+            android:layout_marginTop="13.6dp"
             android:text="请选择预约时间"
-            android:textSize="16sp"/>
+            android:textColor="#d6d6d6"
+            android:textSize="14sp"/>
         <TextView
             android:id="@+id/tv_ok_timer_picker"
-            android:layout_width="80dp"
-            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/textView"
-            android:gravity="center_vertical|right"
-            android:text="确定" android:textSize="16sp"/>
+            android:layout_marginRight="10dp"
+            android:text="确定"
+            android:textColor="#ffbc00"
+            android:textSize="14sp"/>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="240dp"
-        android:paddingBottom="20dp"
+        android:background="#fff"
+        android:paddingBottom="30dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:paddingTop="20dp">
+        android:paddingTop="30dp">
         <com.littlesparkle.growler.raptor.ui.views.Picker
             android:id="@+id/picker_date"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
         />
         <com.littlesparkle.growler.raptor.ui.views.Picker
             android:id="@+id/picker_hour"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
         />
         <com.littlesparkle.growler.raptor.ui.views.Picker

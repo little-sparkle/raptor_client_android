@@ -2,6 +2,7 @@ package com.littlesparkle.growler.raptor.map;
 
 import android.content.Context;
 
+import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
@@ -31,6 +32,7 @@ public class PoiSearchTask implements PoiSearch.OnPoiSearchListener {
         PoiSearch poiSearch = new PoiSearch(mContext, query);
         poiSearch.setOnPoiSearchListener(this);
         poiSearch.searchPOIAsyn();
+
     }
 
     @Override
@@ -51,6 +53,7 @@ public class PoiSearchTask implements PoiSearch.OnPoiSearchListener {
                 System.out.println(entity.address);
             }
             mItemLvDestinationAdapter.setEntities(entities);
+            mItemLvDestinationAdapter.notifyDataSetChanged();
         }
     }
 

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
@@ -27,7 +28,7 @@ import java.util.List;
  */
 public class DestinationActivity extends BaseFragmentActivity implements TextWatcher, View.OnClickListener, AdapterView.OnItemClickListener {
     private EditText mEditText = null;
-    private Button bt_search = null;
+    private TextView bt_search = null;
     private ListView mListView = null;
     private List<String> entities = new ArrayList<>();
     private ItemLvDestinationAdapter mItemLvDestinationAdapter = null;
@@ -51,7 +52,7 @@ public class DestinationActivity extends BaseFragmentActivity implements TextWat
     public void initView() {
         mEditText = (EditText) this.findViewById(R.id.EditText_destination);
         mEditText.addTextChangedListener(this);
-        bt_search = (Button) this.findViewById(R.id.search_destination);
+        bt_search = (TextView) this.findViewById(R.id.search_destination);
         bt_search.setOnClickListener(this);
 
         mListView = (ListView) this.findViewById(R.id.lv_destination);
@@ -86,7 +87,7 @@ public class DestinationActivity extends BaseFragmentActivity implements TextWat
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 mPoiSearchTask.search(mEditText.getText().toString(), "beijing");
-                mItemLvDestinationAdapter.notifyDataSetChanged();
+//                mItemLvDestinationAdapter.notifyDataSetChanged();
                 break;
         }
     }

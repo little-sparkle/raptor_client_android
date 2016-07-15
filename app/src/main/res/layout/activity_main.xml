@@ -138,19 +138,29 @@
             android:padding="14.5dp"
             android:textColorHint="#fbcc00"
             android:textSize="@dimen/text_size_small"/>
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:layout_below="@+id/tv_to"
-                        android:background="#fff"
-                        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignBottom="@+id/tv_to"
+            android:background="#d3d3d3"/>
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@+id/tv_to"
+            android:background="#fff"
+            android:gravity="center">
+
             <TextView
-                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="2dp"
                 android:layout_toLeftOf="@+id/tv_money"
                 android:text="约"
-                android:layout_marginRight="2dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textSize="13sp"/>
             <TextView
                 android:id="@+id/tv_money"
                 android:layout_width="wrap_content"
@@ -161,13 +171,13 @@
                 android:textColor="#ffbc00"
                 android:textSize="17sp"/>
             <TextView
-                android:textSize="13sp"
-                android:text="元"
-                android:layout_toRightOf="@+id/tv_money"
-                android:layout_marginLeft="4dp"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@+id/tv_money"
+                android:text="元"
+                android:textSize="13sp"/>
 
 
         </RelativeLayout>

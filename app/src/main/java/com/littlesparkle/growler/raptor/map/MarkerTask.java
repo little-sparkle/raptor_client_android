@@ -15,9 +15,9 @@ import java.util.ArrayList;
  */
 public class MarkerTask {
     private AMap mAMap = null;
-    private static MarkerOptions mainMarkerOptions = new MarkerOptions();
-    private static ArrayList<Marker> markers = new ArrayList<Marker>();
-    private static Marker mainMarker = null;
+    private MarkerOptions mainMarkerOptions = new MarkerOptions();
+    private ArrayList<Marker> markers = new ArrayList<Marker>();
+    private Marker mainMarker = null;
 
     public MarkerTask(AMap aMap) {
         mAMap = aMap;
@@ -29,7 +29,7 @@ public class MarkerTask {
         mainMarkerOptions.draggable(false);
         mainMarkerOptions.anchor(0.1f, 0.1f);
 //        设置图片
-//        mainMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
+        mainMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.location_header_default));
         if (mainMarker == null) {
             mainMarker = mAMap.addMarker(mainMarkerOptions);
             mainMarker.setTitle("当前位置");
@@ -53,6 +53,7 @@ public class MarkerTask {
     }
 
     public void addCarMarker(LatLng center) {
+
         if (markers.size() == 0) {
             BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory
                     .fromResource(R.drawable.icon_car);

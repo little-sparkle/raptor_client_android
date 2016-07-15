@@ -45,5 +45,7 @@
     <string name="company">公司-职业</string>
     <string name="want_to_go">你想去哪</string>
     <string name="editor">编辑</string>
+    <string name="set_home_address">设置家庭地址</string>
+    <string name="set_company_address">设置公司地址</string>
 
 </resources>

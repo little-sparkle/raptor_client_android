@@ -3,6 +3,7 @@ package com.littlesparkle.growler.raptor.ui.activity;
 import android.os.Message;
 import android.widget.ListView;
 
+import com.littlesparkle.growler.library.activity.BaseActivity;
 import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
 import com.littlesparkle.growler.raptor.R;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * Created by dell on 2016/7/7.
  */
-public class HistoricalJourneyActivity extends BaseFragmentActivity {
+public class HistoricalJourneyActivity extends BaseActivity {
 
     private ListView mListView = null;
     private ItemLvJourneyAdapter mItemLvJourneyAdapter = null;
@@ -39,7 +40,7 @@ public class HistoricalJourneyActivity extends BaseFragmentActivity {
 
 
     @Override
-    public int setActivityContentView() {
+    public int getLayoutResId() {
         return R.layout.activity_historical_journey;
     }
 

@@ -12,17 +12,15 @@
             android:id="@+id/bt_back"
             android:layout_width="37dp"
             android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/tv_title"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:background="@drawable/bt_back"/>
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="240dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:gravity="center"
             android:text="@string/title_information"
             android:textSize="16sp"/>
     </RelativeLayout>
@@ -46,8 +44,8 @@
                 android:layout_below="@+id/relativeLayout"
                 android:background="#fff">
                 <TextView
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp" android:gravity="center_vertical"
@@ -63,8 +61,8 @@
                     android:background="@drawable/default_header"/>
                 <ImageView
 
-                    android:layout_width="14.6dp"
-                    android:layout_height="14.6dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/right_arrow"
                     android:layout_centerVertical="true"
@@ -84,8 +82,8 @@
 
                 <TextView
                     android:id="@+id/tv_name"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
@@ -95,8 +93,8 @@
 
                 <TextView
                     android:id="@+id/setting_tv_nickname"
-                    android:layout_width="150dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignTop="@+id/tv_name"
                     android:layout_marginEnd="35dp"
@@ -104,8 +102,8 @@
                     android:text="范范范久明"
                     android:textSize="12sp"/>
                 <ImageView
-                    android:layout_width="14.6dp"
-                    android:layout_height="14.6dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/right_arrow"
                     android:layout_centerVertical="true"
@@ -122,12 +120,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/setting_nickname" android:background="#fff">
+                android:layout_below="@+id/setting_nickname"
+                android:background="#fff">
 
                 <TextView
                     android:id="@+id/tv_age"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
@@ -137,16 +136,16 @@
 
                 <TextView
                     android:id="@+id/setting_tv_age"
-                    android:layout_width="150dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignTop="@+id/tv_age"
                     android:layout_marginEnd="35dp" android:gravity="right|center"
                     android:text="18" android:textSize="12sp"/>
 
                 <ImageView
-                    android:layout_width="14.6dp"
-                    android:layout_height="14.6dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/right_arrow"
                     android:layout_centerVertical="true"
@@ -166,8 +165,8 @@
 
                 <TextView
                     android:id="@+id/tv_number"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
@@ -177,16 +176,16 @@
 
                 <TextView
                     android:id="@+id/setting_tv_number"
-                    android:layout_width="150dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignTop="@+id/tv_number"
                     android:layout_marginEnd="35dp" android:gravity="right|center"
                     android:text="18333611298" android:textSize="12sp"/>
 
                 <ImageView
-                    android:layout_width="14.6dp"
-                    android:layout_height="14.6dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/right_arrow"
                     android:layout_centerVertical="true"
@@ -206,8 +205,8 @@
 
                 <TextView
                     android:id="@+id/tv_sex"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
@@ -217,8 +216,8 @@
 
                 <TextView
                     android:id="@+id/setting_tv_sex"
-                    android:layout_width="150dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignTop="@+id/tv_sex"
                     android:layout_marginEnd="35dp"
@@ -226,8 +225,8 @@
                     android:text="男" android:textSize="12sp"/>
 
                 <ImageView
-                    android:layout_width="14.6dp"
-                    android:layout_height="14.6dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/right_arrow"
                     android:layout_centerVertical="true"
@@ -248,8 +247,8 @@
 
                 <TextView
                     android:id="@+id/tv_level"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
@@ -259,8 +258,8 @@
 
                 <TextView
                     android:id="@+id/setting_tv_level"
-                    android:layout_width="150dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignTop="@+id/tv_level"
                     android:layout_marginEnd="35dp"
@@ -268,8 +267,8 @@
                     android:text="优选会员" android:textSize="12sp"/>
 
                 <ImageView
-                    android:layout_width="14.6dp"
-                    android:layout_height="14.6dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/right_arrow"
                     android:layout_centerVertical="true"
@@ -288,8 +287,8 @@
 
                 <TextView
                     android:id="@+id/tv_profession"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
@@ -299,8 +298,8 @@
 
                 <TextView
                     android:id="@+id/setting_tv_profession"
-                    android:layout_width="150dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignTop="@+id/tv_profession"
                     android:layout_marginEnd="35dp"
@@ -309,8 +308,8 @@
                     android:textSize="12sp"/>
 
                 <ImageView
-                    android:layout_width="14.6dp"
-                    android:layout_height="14.6dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/right_arrow"
                     android:layout_centerVertical="true"
@@ -327,8 +326,8 @@
 
                 <TextView
                     android:id="@+id/tv_company"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
@@ -338,8 +337,8 @@
 
                 <TextView
                     android:id="@+id/setting_tv_company"
-                    android:layout_width="150dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignTop="@+id/tv_company"
                     android:layout_marginEnd="35dp"
@@ -348,8 +347,8 @@
                     android:textSize="12sp"/>
 
                 <ImageView
-                    android:layout_width="14.6dp"
-                    android:layout_height="14.6dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/right_arrow"
                     android:layout_centerVertical="true"
@@ -367,8 +366,8 @@
 
                 <TextView
                     android:id="@+id/tv_driver"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
@@ -376,8 +375,8 @@
                     android:text="@string/driver"
                     android:textSize="14sp"/>
                 <ImageView
-                    android:layout_width="14.6dp"
-                    android:layout_height="14.6dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/right_arrow"
                     android:layout_centerVertical="true"

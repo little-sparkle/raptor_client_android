@@ -51,18 +51,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme">
-        <activity android:name=".ui.activity.MainActivity">
+        <activity android:name=".ui.activity.MainActivity"
+                  android:theme="@style/Theme.Design.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.InfoActivity"/>
-        <activity android:name=".ui.activity.DestinationActivity"/>
+        <activity android:name=".ui.activity.InfoActivity"
+                  android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity android:name=".ui.activity.DestinationActivity"
+                  android:theme="@style/Theme.Design.Light.NoActionBar"/>
         <activity android:name=".ui.activity.LoginActivity"/>
-        <activity android:name=".ui.activity.SettingActivity"/>
-        <activity android:name=".ui.activity.HistoricalJourneyActivity"/>
+        <activity android:name=".ui.activity.SettingActivity"
+                  android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity android:name=".ui.activity.HistoricalJourneyActivity"
+                  android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity android:name=".ui.activity.CommonAddressActivity"
+                  android:theme="@style/Theme.Design.Light.NoActionBar"/>
+
         <service android:name="com.amap.api.location.APSService"/>
 
         <meta-data
@@ -149,6 +157,10 @@
             android:authorities="downloads.com.littlesparkle.growler.raptor"
             android:exported="true"
             android:process=":pushservice"/>
+
+        <activity android:name=".ui.activity.AboutActivity"
+                  android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

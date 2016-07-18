@@ -47,5 +47,7 @@
     <string name="editor">编辑</string>
     <string name="set_home_address">设置家庭地址</string>
     <string name="set_company_address">设置公司地址</string>
+    <string name="help">帮助</string>
+    <string name="product">产品</string>
 
 </resources>

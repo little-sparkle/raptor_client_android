@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -22,18 +23,17 @@ import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
 import com.littlesparkle.growler.raptor.R;
 import com.littlesparkle.growler.raptor.listener.OnPopwindowClickListener;
 import com.littlesparkle.growler.raptor.ui.views.HeadPopWindow;
+import com.littlesparkle.growler.raptor.utils.DensityUtils;
 import com.littlesparkle.growler.raptor.utils.SaveBMUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
 
-
-
 /**
  * Created by dell on 2016/7/4.
  */
-public class InfoActivity extends BaseFragmentActivity implements View.OnClickListener, OnPopwindowClickListener {
+public class InfoActivity extends BaseActivity implements View.OnClickListener, OnPopwindowClickListener {
 
     private ImageView headImageView = null;
     private HeadPopWindow mHeadPopWindow = null;
@@ -59,7 +59,7 @@ public class InfoActivity extends BaseFragmentActivity implements View.OnClickLi
     }
 
     @Override
-    public int setActivityContentView() {
+    public int getLayoutResId() {
         return R.layout.activity_info;
     }
 
@@ -85,16 +85,17 @@ public class InfoActivity extends BaseFragmentActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imgv_header_setting:
-                Toast.makeText(mBaseFragmentActivity, "head", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mBaseActivity, "head", Toast.LENGTH_SHORT).show();
                 mHeadPopWindow = new HeadPopWindow(InfoActivity.this, driverLayout);
                 mHeadPopWindow.setWidth(driverLayout.getWidth());
-                mHeadPopWindow.setHeight(600);
+                mHeadPopWindow.setHeight(DensityUtils.dp2px(this, 160));
                 mHeadPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
-
+                        backgroundAlpha(1.0f);
                     }
                 });
+                backgroundAlpha(0.7f);
                 mHeadPopWindow.showAsDropDown(mTextViewForPop);
                 mHeadPopWindow.setOnPopwindowClickListener(this);
                 break;
@@ -104,6 +105,11 @@ public class InfoActivity extends BaseFragmentActivity implements View.OnClickLi
         }
     }
 
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

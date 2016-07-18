@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.littlesparkle.growler.library.activity.BaseActivity;
 import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
 import com.littlesparkle.growler.raptor.R;
@@ -26,7 +27,7 @@ import java.util.List;
 /**
  * Created by dell on 2016/7/6.
  */
-public class DestinationActivity extends BaseFragmentActivity implements TextWatcher, View.OnClickListener, AdapterView.OnItemClickListener {
+public class DestinationActivity extends BaseActivity implements TextWatcher, View.OnClickListener, AdapterView.OnItemClickListener {
     private EditText mEditText = null;
     private TextView bt_search = null;
     private ListView mListView = null;
@@ -39,7 +40,7 @@ public class DestinationActivity extends BaseFragmentActivity implements TextWat
 
 
     @Override
-    public int setActivityContentView() {
+    public int getLayoutResId() {
         return R.layout.activity_destination;
     }
 
@@ -58,9 +59,9 @@ public class DestinationActivity extends BaseFragmentActivity implements TextWat
         mListView = (ListView) this.findViewById(R.id.lv_destination);
         mListView.setOnItemClickListener(this);
         if (mItemLvDestinationAdapter == null) {
-            mItemLvDestinationAdapter = new ItemLvDestinationAdapter(mBaseFragmentActivity, entities);
+            mItemLvDestinationAdapter = new ItemLvDestinationAdapter(mBaseActivity, entities);
         }
-        mPoiSearchTask = new PoiSearchTask(mBaseFragmentActivity, mItemLvDestinationAdapter);
+        mPoiSearchTask = new PoiSearchTask(mBaseActivity, mItemLvDestinationAdapter);
         mListView.setAdapter(mItemLvDestinationAdapter);
     }
 

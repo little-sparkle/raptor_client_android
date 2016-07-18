@@ -57,8 +57,8 @@
     />
     <ImageView
         android:id="@+id/button"
-        android:layout_width="14.6dp"
-        android:layout_height="14.6dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/tv_journey_from"
         android:layout_marginRight="10dp"

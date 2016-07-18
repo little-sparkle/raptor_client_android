@@ -37,6 +37,7 @@ import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.igexin.sdk.PushManager;
+import com.littlesparkle.growler.library.activity.BaseActivity;
 import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
 import com.littlesparkle.growler.raptor.R;
 import com.littlesparkle.growler.raptor.listener.OnLocationGetListener;
@@ -44,6 +45,7 @@ import com.littlesparkle.growler.raptor.map.LocationTask;
 import com.littlesparkle.growler.raptor.map.MarkerTask;
 import com.littlesparkle.growler.raptor.map.SearchTask;
 import com.littlesparkle.growler.raptor.ui.views.TimerPickerPopWindow;
+import com.littlesparkle.growler.raptor.utils.DensityUtils;
 import com.littlesparkle.growler.raptor.utils.SystemStatusManager;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -55,7 +57,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 
-public class MainActivity extends BaseFragmentActivity implements
+public class MainActivity extends BaseActivity implements
         AMapLocationListener, View.OnClickListener, AMap.OnCameraChangeListener, AMap.OnMapLoadedListener, OnLocationGetListener {
 
     private MapView mMapView = null;
@@ -190,7 +192,7 @@ public class MainActivity extends BaseFragmentActivity implements
         mDrawer.getStickyFooter().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mBaseFragmentActivity, "footer", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mBaseActivity, "footer", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -245,7 +247,7 @@ public class MainActivity extends BaseFragmentActivity implements
 
 
     @Override
-    public int setActivityContentView() {
+    public int getLayoutResId() {
         return R.layout.activity_main;
 
     }
@@ -287,9 +289,9 @@ public class MainActivity extends BaseFragmentActivity implements
         }
         mAMap.setOnCameraChangeListener(this);
         mAMap.setOnMapLoadedListener(this);
-        mSearchTask = new SearchTask(mBaseFragmentActivity.getApplicationContext());
+        mSearchTask = new SearchTask(mBaseActivity.getApplicationContext());
         mMarkerTask = new MarkerTask(mAMap);
-        mLocationTask =new LocationTask(mAMap, mBaseFragmentActivity.getApplicationContext(), this);
+        mLocationTask = new LocationTask(mAMap, mBaseActivity.getApplicationContext(), this);
     }
 
 
@@ -377,19 +379,26 @@ public class MainActivity extends BaseFragmentActivity implements
 
             case R.id.check_time:
                 timerPickerPopWindow.setWidth(mRelativePickContent.getWidth());
-                timerPickerPopWindow.setHeight(1200);
+                timerPickerPopWindow.setHeight(DensityUtils.dp2px(this, 300));
                 timerPickerPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
-
+                        backgroundAlpha(1.0f);
                     }
                 });
+                backgroundAlpha(0.7f);
                 timerPickerPopWindow.showAsDropDown(mRelativePickContent);
 
                 break;
 
 
         }
+    }
+
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
     }
 
     @Override
@@ -444,7 +453,6 @@ public class MainActivity extends BaseFragmentActivity implements
 
     @Override
     public void onLocationGet(RegeocodeResult regeocodeResult) {
-
 
 
         String address = null;

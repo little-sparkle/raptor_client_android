@@ -1,74 +1,50 @@
 package com.littlesparkle.growler.raptor.ui.adapter;
 
-import android.app.Activity;
-import android.view.LayoutInflater;
+import android.content.Context;
+import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.littlesparkle.growler.library.base.NormalBaseAdapter;
 import com.littlesparkle.growler.raptor.R;
 
 import java.util.List;
 
-public class ItemLvDestinationAdapter extends BaseAdapter {
+/**
+ * Created by dell on 2016/7/18.
+ */
+public class ItemLvDestinationAdapter extends NormalBaseAdapter<String, ItemLvDestinationAdapter.DestinationViewHolder> {
 
-    private List<String> mEntities;
 
-    private Activity context;
-    private LayoutInflater layoutInflater;
+    public ItemLvDestinationAdapter(Context context, @LayoutRes int resource) {
+        super(context, resource);
+    }
 
-    public ItemLvDestinationAdapter(Activity context, List<String> mEntities) {
-        this.context = context;
-        this.mEntities = mEntities;
-        this.layoutInflater = LayoutInflater.from(context);
+    public ItemLvDestinationAdapter(Context context, @LayoutRes int resource, List<String> dataList) {
+        super(context, resource, dataList);
     }
 
     public List<String> getEntities() {
-        return mEntities;
-    }
-
-    public void setEntities(List<String> entities) {
-        mEntities = entities;
+        return mDataList;
     }
 
     @Override
-    public int getCount() {
-        return mEntities.size();
+    protected DestinationViewHolder onCreateViewHolder(ViewGroup parent, View convertView) {
+        return  new DestinationViewHolder(convertView);
     }
 
     @Override
-    public String getItem(int position) {
-        return mEntities.get(position);
+    protected void onBindViewHolder(DestinationViewHolder holder, String item, int position) {
+        holder.tvItemDestination.setText(item);
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.item_lv_destination, parent, false);
-            ViewHolder viewHolder = new ViewHolder(convertView);
-
-            convertView.setTag(viewHolder);
-        }
-        initializeViews((String) getItem(position), (ViewHolder) convertView.getTag());
-        return convertView;
-    }
-
-    private void initializeViews(String entity, ViewHolder holder) {
-        holder.tvItemDestination.setText(entity);
-    }
-
-    protected class ViewHolder {
+    public class DestinationViewHolder extends NormalBaseAdapter.ViewHolder {
         private TextView tvItemDestination;
 
-        public ViewHolder(View view) {
-            tvItemDestination = (TextView) view.findViewById(R.id.tv_item_destination);
+        public DestinationViewHolder(View v) {
+            super(v);
+            tvItemDestination = (TextView) v.findViewById(R.id.tv_item_destination);
         }
     }
 }
-

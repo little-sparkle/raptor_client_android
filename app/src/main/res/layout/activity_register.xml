@@ -14,8 +14,8 @@
             android:id="@+id/imgv_logo_activity"
             android:layout_width="64.6dp"
             android:layout_height="68.3dp"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="148dp"
             android:background="@drawable/car_login"/>
     </RelativeLayout>
     <LinearLayout

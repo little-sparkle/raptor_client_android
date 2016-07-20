@@ -37,8 +37,6 @@ public class DestinationActivity extends BaseActivity implements TextWatcher, Vi
     private List<String> poiEntities = null;
 
 
-
-
     @Override
     public int getLayoutResId() {
         return R.layout.activity_destination;
@@ -46,22 +44,23 @@ public class DestinationActivity extends BaseActivity implements TextWatcher, Vi
 
     @Override
     public void initData() {
-
+        super.initData();
     }
 
     @Override
     public void initView() {
-        mEditText = (EditText) this.findViewById(R.id.EditText_destination);
+        super.initView();
+        mEditText = (EditText) findViewById(R.id.EditText_destination);
         mEditText.addTextChangedListener(this);
-        bt_search = (TextView) this.findViewById(R.id.search_destination);
+        bt_search = (TextView) findViewById(R.id.search_destination);
         bt_search.setOnClickListener(this);
 
-        mListView = (ListView) this.findViewById(R.id.lv_destination);
+        mListView = (ListView) findViewById(R.id.lv_destination);
         mListView.setOnItemClickListener(this);
         if (mItemLvDestinationAdapter == null) {
-            mItemLvDestinationAdapter = new ItemLvDestinationAdapter(mBaseActivity, entities);
+            mItemLvDestinationAdapter = new ItemLvDestinationAdapter(this, R.layout.item_lv_destination, entities);
         }
-        mPoiSearchTask = new PoiSearchTask(mBaseActivity, mItemLvDestinationAdapter);
+        mPoiSearchTask = new PoiSearchTask(this, mItemLvDestinationAdapter);
         mListView.setAdapter(mItemLvDestinationAdapter);
     }
 

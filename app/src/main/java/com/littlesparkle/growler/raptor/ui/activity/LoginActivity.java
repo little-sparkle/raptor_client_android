@@ -1,12 +1,15 @@
 package com.littlesparkle.growler.raptor.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
+import com.littlesparkle.growler.library.activity.BaseLoginActivity;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
 import com.littlesparkle.growler.raptor.R;
 
@@ -14,38 +17,21 @@ import com.littlesparkle.growler.raptor.R;
 /**
  * Created by dell on 2016/7/6.
  */
-public class LoginActivity extends BaseFragmentActivity implements View.OnClickListener {
-
-    private TextView goToRegister = null;
+public class LoginActivity extends BaseLoginActivity {
 
 
     @Override
-    public int setActivityContentView() {
-        return R.layout.activity_login;
+    protected void onRegister() {
+        startActivity(new Intent(this, RegisterActivity.class));
     }
 
     @Override
-    public void initData() {
-
+    protected void onForgetPasswordClick() {
+       startActivity(new Intent(this, ForgetActivity.class));
     }
 
     @Override
-    public void initView() {
-        goToRegister = (TextView) this.findViewById(R.id.go_to_register);
-        goToRegister.setOnClickListener(this);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.go_to_register:
-                startActivity(RegisterActivity.class);
-                break;
-        }
+    protected void onLoginClick() {
+        Toast.makeText(this, "发起登陆请求", Toast.LENGTH_SHORT).show();
     }
 }

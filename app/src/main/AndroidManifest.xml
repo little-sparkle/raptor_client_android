@@ -51,35 +51,68 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme">
-        <activity android:name=".ui.activity.MainActivity"
-                  android:theme="@style/Theme.Design.Light.NoActionBar">
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ui.activity.SplashActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.InfoActivity"
-                  android:theme="@style/Theme.Design.Light.NoActionBar"/>
-        <activity android:name=".ui.activity.DestinationActivity"
-                  android:theme="@style/Theme.Design.Light.NoActionBar"/>
-        <activity android:name=".ui.activity.LoginActivity"/>
-        <activity android:name=".ui.activity.SettingActivity"
-                  android:theme="@style/Theme.Design.Light.NoActionBar"/>
-        <activity android:name=".ui.activity.HistoricalJourneyActivity"
-                  android:theme="@style/Theme.Design.Light.NoActionBar"/>
-        <activity android:name=".ui.activity.CommonAddressActivity"
-                  android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity
+            android:name=".ui.activity.InfoActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity
+            android:name=".ui.activity.DestinationActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity
+            android:name=".ui.activity.SettingActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity
+            android:name=".ui.activity.HistoricalJourneyActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity
+            android:name=".ui.activity.CommonAddressActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity
+            android:name=".ui.activity.AboutActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ui.activity.ForgetActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ui.activity.ResetActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ui.activity.RegisterActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
+
+        <receiver
+            android:name=".boradcastreceiver.DownloadReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+            </intent-filter>
+        </receiver>
 
         <service android:name="com.amap.api.location.APSService"/>
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="aae8b70859438b363a87fc07a5fcfb88"/>
-
-        <activity android:name=".ui.activity.RegisterActivity">
-        </activity>
-
         <meta-data
             android:name="PUSH_APPID"
             android:value="YcnH4sU5Hm5iH2E0E7yID7"/>
@@ -158,9 +191,6 @@
             android:exported="true"
             android:process=":pushservice"/>
 
-        <activity android:name=".ui.activity.AboutActivity"
-                  android:theme="@style/Theme.Design.Light.NoActionBar">
-        </activity>
     </application>
 
 </manifest>

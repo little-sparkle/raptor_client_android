@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.littlesparkle.growler.library.activity.BaseActivity;
 import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
+import com.littlesparkle.growler.library.activity.BaseTitleBarActivity;
 import com.littlesparkle.growler.raptor.R;
 import com.littlesparkle.growler.raptor.listener.OnPopwindowClickListener;
 import com.littlesparkle.growler.raptor.ui.views.HeadPopWindow;
@@ -33,7 +34,7 @@ import java.io.FileNotFoundException;
 /**
  * Created by dell on 2016/7/4.
  */
-public class InfoActivity extends BaseActivity implements View.OnClickListener, OnPopwindowClickListener {
+public class InfoActivity extends BaseTitleBarActivity implements View.OnClickListener, OnPopwindowClickListener {
 
     private ImageView headImageView = null;
     private HeadPopWindow mHeadPopWindow = null;
@@ -42,8 +43,6 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener, 
     private File mHeadPhoto = null;
     private Bitmap bmp = null;
 
-
-    private Button btBack = null;
 
     //拍照返回
     public static final int REQUEST_CODE_TAKE_PHOTO = 10;
@@ -72,12 +71,16 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void initView() {
-        driverLayout = (RelativeLayout) this.findViewById(R.id.setting_driver);
-        mTextViewForPop = (TextView) this.findViewById(R.id.text_for_pop);
-        headImageView = (ImageView) this.findViewById(R.id.imgv_header_setting);
+        super.initView();
+        driverLayout = (RelativeLayout) findViewById(R.id.setting_driver);
+        mTextViewForPop = (TextView) findViewById(R.id.text_for_pop);
+        headImageView = (ImageView) findViewById(R.id.imgv_header_setting);
         headImageView.setOnClickListener(this);
-        btBack = (Button) this.findViewById(R.id.bt_back);
-        btBack.setOnClickListener(this);
+    }
+
+    @Override
+    protected int getTitleResourceId() {
+        return R.string.title_information;
     }
 
 
@@ -85,7 +88,7 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imgv_header_setting:
-                Toast.makeText(mBaseActivity, "head", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "head", Toast.LENGTH_SHORT).show();
                 mHeadPopWindow = new HeadPopWindow(InfoActivity.this, driverLayout);
                 mHeadPopWindow.setWidth(driverLayout.getWidth());
                 mHeadPopWindow.setHeight(DensityUtils.dp2px(this, 160));
@@ -99,9 +102,7 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener, 
                 mHeadPopWindow.showAsDropDown(mTextViewForPop);
                 mHeadPopWindow.setOnPopwindowClickListener(this);
                 break;
-            case R.id.bt_back:
-                this.finish();
-                break;
+
         }
     }
 
@@ -123,7 +124,7 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener, 
 
             try {
                 Uri uri = data.getData();
-                ContentResolver cr = this.getContentResolver();
+                ContentResolver cr = getContentResolver();
                 bmp = BitmapFactory.decodeStream(cr.openInputStream(uri));
                 mHeadPhoto = SaveBMUtil.saveMyBitmap(bmp, "tx" + System.currentTimeMillis());
                 clipPhoto(Uri.fromFile(mHeadPhoto));
@@ -191,7 +192,7 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener, 
 
     //判断是否有支持相机
     private boolean hasCarema() {
-        PackageManager pm = this.getPackageManager();
+        PackageManager pm = getPackageManager();
         if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)
                 && !pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT)) {
             Toast.makeText(this, "no camera found", Toast.LENGTH_SHORT).show();
@@ -214,7 +215,7 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener, 
         Intent newIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //最终把拍摄的相片，输出到uri指向
         newIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        this.startActivityForResult(newIntent, REQUEST_CODE_TAKE_PHOTO);
+        startActivityForResult(newIntent, REQUEST_CODE_TAKE_PHOTO);
 
     }
 

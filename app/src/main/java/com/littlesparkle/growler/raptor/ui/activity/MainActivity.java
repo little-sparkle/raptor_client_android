@@ -119,7 +119,8 @@ public class MainActivity extends BaseActivity implements
                 .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
                     @Override
                     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-                        startActivity(InfoActivity.class);
+//                        startActivity(InfoActivity.class);
+                        startActivity(new Intent(MainActivity.this, InfoActivity.class));
                         return false;
                     }
 
@@ -173,7 +174,8 @@ public class MainActivity extends BaseActivity implements
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch (position) {
                             case 0:
-                                startActivity(HistoricalJourneyActivity.class);
+//                                startActivity(HistoricalJourneyActivity.class);
+                                startActivity(new Intent(MainActivity.this, HistoricalJourneyActivity.class));
                                 break;
                             case 1:
 
@@ -182,7 +184,8 @@ public class MainActivity extends BaseActivity implements
 
                                 break;
                             case 3:
-                                startActivity(SettingActivity.class);
+//                                startActivity(SettingActivity.class);
+                                startActivity(new Intent(MainActivity.this, SettingActivity.class));
                                 break;
                         }
                         return false;
@@ -192,7 +195,7 @@ public class MainActivity extends BaseActivity implements
         mDrawer.getStickyFooter().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mBaseActivity, "footer", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "footer", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -219,7 +222,7 @@ public class MainActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 //        setTranslucentStatus();
         super.onCreate(savedInstanceState);
-        PushManager.getInstance().initialize(this.getApplicationContext());
+        PushManager.getInstance().initialize(getApplicationContext());
         mMapView.onCreate(savedInstanceState);
         initAccountHeader();
         initDrawer();
@@ -261,18 +264,18 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void initView() {
-        mMapView = (MapView) this.findViewById(R.id.mapView);
-        menuButton = (ImageView) this.findViewById(R.id.bt_menu);
-        mTextViewFrom = (TextView) this.findViewById(R.id.tv_from);
-        mTextViewTo = (TextView) this.findViewById(R.id.tv_to);
-        mRelativeTime = (RelativeLayout) this.findViewById(R.id.relativeTime);
-        mButtonCallLater = (Button) this.findViewById(R.id.call_car_later);
-        mButtonShunFengChe = (RadioButton) this.findViewById(R.id.bt_shunfengche);
-        mButtonCallNow = (Button) this.findViewById(R.id.call_car_now);
-        mButtonKuaiChe = (RadioButton) this.findViewById(R.id.bt_kuaiche);
-        mLinearNowOrLater = (LinearLayout) this.findViewById(R.id.linear_Now_Later);
-        mTextViewTimeCheck = (TextView) this.findViewById(R.id.check_time);
-        mRelativePickContent = (RelativeLayout) this.findViewById(R.id.relative_pick_content);
+        mMapView = (MapView) findViewById(R.id.mapView);
+        menuButton = (ImageView) findViewById(R.id.bt_menu);
+        mTextViewFrom = (TextView) findViewById(R.id.tv_from);
+        mTextViewTo = (TextView) findViewById(R.id.tv_to);
+        mRelativeTime = (RelativeLayout) findViewById(R.id.relativeTime);
+        mButtonCallLater = (Button) findViewById(R.id.call_car_later);
+        mButtonShunFengChe = (RadioButton) findViewById(R.id.bt_shunfengche);
+        mButtonCallNow = (Button) findViewById(R.id.call_car_now);
+        mButtonKuaiChe = (RadioButton) findViewById(R.id.bt_kuaiche);
+        mLinearNowOrLater = (LinearLayout) findViewById(R.id.linear_Now_Later);
+        mTextViewTimeCheck = (TextView) findViewById(R.id.check_time);
+        mRelativePickContent = (RelativeLayout) findViewById(R.id.relative_pick_content);
         timerPickerPopWindow = new TimerPickerPopWindow(this, mRelativePickContent);
 
         mButtonCallNow.setOnClickListener(this);
@@ -289,9 +292,9 @@ public class MainActivity extends BaseActivity implements
         }
         mAMap.setOnCameraChangeListener(this);
         mAMap.setOnMapLoadedListener(this);
-        mSearchTask = new SearchTask(mBaseActivity.getApplicationContext());
+        mSearchTask = new SearchTask(this.getApplicationContext());
         mMarkerTask = new MarkerTask(mAMap);
-        mLocationTask = new LocationTask(mAMap, mBaseActivity.getApplicationContext(), this);
+        mLocationTask = new LocationTask(mAMap, this.getApplicationContext(), this);
     }
 
 
@@ -357,7 +360,7 @@ public class MainActivity extends BaseActivity implements
             case R.id.bt_menu:
 //                这里需要进行判断是否登录过了，如果没有，跳转到登陆界面
 //                mDrawer.openDrawer();
-                startActivity(LoginActivity.class);
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 break;
             case R.id.tv_to:
                 Intent intent = new Intent(this, DestinationActivity.class);

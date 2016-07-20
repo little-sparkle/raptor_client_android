@@ -52,7 +52,7 @@ public class PoiSearchTask implements PoiSearch.OnPoiSearchListener {
                 entities.add(entity.address);
                 System.out.println(entity.address);
             }
-            mItemLvDestinationAdapter.setEntities(entities);
+            mItemLvDestinationAdapter.setDataList(entities);
             mItemLvDestinationAdapter.notifyDataSetChanged();
         }
     }

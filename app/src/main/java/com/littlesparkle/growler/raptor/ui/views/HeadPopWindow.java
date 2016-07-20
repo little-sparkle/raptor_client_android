@@ -40,7 +40,7 @@ public class HeadPopWindow extends PopupWindow implements View.OnClickListener {
 
     public HeadPopWindow(InfoActivity infoActivity, ViewGroup viewGroup) {
         mInfoActivity = infoActivity;
-        mLayoutInflater = infoActivity.mLayoutInflater;
+        mLayoutInflater = mInfoActivity.getLayoutInflater();
         mContentView = mLayoutInflater.inflate(R.layout.head_popwindow, viewGroup, false);
         this.setContentView(mContentView);
         mContentView.setFocusable(true);

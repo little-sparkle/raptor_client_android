@@ -12,12 +12,14 @@ import com.littlesparkle.growler.library.activity.BaseActivity;
 import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
 import com.littlesparkle.growler.library.activity.BaseTitleBarActivity;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
+import com.littlesparkle.growler.library.user.UserManager;
 import com.littlesparkle.growler.raptor.R;
 
 public class SettingActivity extends BaseTitleBarActivity implements View.OnClickListener {
 
     private RelativeLayout mRelativeLayoutAddress;
     private RelativeLayout mRelativeLayoutAbout;
+    private RelativeLayout mRelativeLayoutLogout;
 
     @Override
     public int getLayoutResId() {
@@ -36,6 +38,8 @@ public class SettingActivity extends BaseTitleBarActivity implements View.OnClic
         mRelativeLayoutAddress.setOnClickListener(this);
         mRelativeLayoutAbout = (RelativeLayout) findViewById(R.id.relative_about);
         mRelativeLayoutAbout.setOnClickListener(this);
+        mRelativeLayoutLogout = (RelativeLayout) findViewById(R.id.relative_logout);
+        mRelativeLayoutLogout.setOnClickListener(this);
 
     }
 
@@ -54,6 +58,12 @@ public class SettingActivity extends BaseTitleBarActivity implements View.OnClic
 
             case R.id.relative_about:
                 startActivity(new Intent(SettingActivity.this, AboutActivity.class));
+                break;
+            case R.id.relative_logout:
+                UserManager.signOut(SettingActivity.this);
+                startActivity(new Intent(SettingActivity.this, LoginActivity.class));
+                MainActivity.mainActivity.finish();
+                finish();
                 break;
         }
     }

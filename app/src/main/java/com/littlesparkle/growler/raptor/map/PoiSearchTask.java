@@ -19,6 +19,7 @@ public class PoiSearchTask implements PoiSearch.OnPoiSearchListener {
 
     private Context mContext = null;
     private ItemLvDestinationAdapter mItemLvDestinationAdapter = null;
+    public List<PositionEntity> entities = null;
 
     public PoiSearchTask(Context context, ItemLvDestinationAdapter itemLvDestinationAdapter) {
         mContext = context;
@@ -42,17 +43,17 @@ public class PoiSearchTask implements PoiSearch.OnPoiSearchListener {
             if (pois == null) {
                 return;
             }
-            List<String> entities = new ArrayList<>();
 
-
+            entities = new ArrayList<>();
+            List<String> addressEntities = new ArrayList<>();
             for (PoiItem poiItem : pois) {
                 PositionEntity entity = new PositionEntity(poiItem.getLatLonPoint().getLatitude(),
                         poiItem.getLatLonPoint().getLongitude(), poiItem.getTitle()
                         , poiItem.getCityName());
-                entities.add(entity.address);
-                System.out.println(entity.address);
+                entities.add(entity);
+                addressEntities.add(entity.address);
             }
-            mItemLvDestinationAdapter.setDataList(entities);
+            mItemLvDestinationAdapter.setDataList(addressEntities);
             mItemLvDestinationAdapter.notifyDataSetChanged();
         }
     }

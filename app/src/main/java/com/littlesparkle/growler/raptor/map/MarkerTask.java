@@ -18,6 +18,7 @@ public class MarkerTask {
     private MarkerOptions mainMarkerOptions = new MarkerOptions();
     private ArrayList<Marker> markers = new ArrayList<Marker>();
     private Marker mainMarker = null;
+    private Marker destinationmarker = null;
 
     public MarkerTask(AMap aMap) {
         mAMap = aMap;
@@ -32,24 +33,23 @@ public class MarkerTask {
         mainMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.location_header_default));
         if (mainMarker == null) {
             mainMarker = mAMap.addMarker(mainMarkerOptions);
-            mainMarker.setTitle("当前位置");
-
         } else {
             mainMarker.setPosition(latLng);
 
         }
     }
 
-    //    根据坐标添加marker
-    public void addMarkerWithLatLng(LatLng latLng) {
+    //    添加目的地marker
+    public void addMarkerDestination(LatLng latLng) {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.draggable(false);
         markerOptions.anchor(0.1f, 0.1f);
-//        设置图片
-//        mainMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-//        mAMap.clear();
-        mAMap.addMarker(markerOptions);
+        if (destinationmarker == null) {
+            destinationmarker = mAMap.addMarker(markerOptions);
+        } else {
+            destinationmarker.setPosition(latLng);
+        }
     }
 
     public void addCarMarker(LatLng center) {
@@ -58,7 +58,7 @@ public class MarkerTask {
             BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory
                     .fromResource(R.drawable.icon_car);
 
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 8; i++) {
                 double latitudeDelt = (Math.random() - 0.5) * 0.1 * 0.1;
                 double longtitudeDelt = (Math.random() - 0.5) * 0.1 * 0.1;
                 MarkerOptions carMarkerOptions = new MarkerOptions();

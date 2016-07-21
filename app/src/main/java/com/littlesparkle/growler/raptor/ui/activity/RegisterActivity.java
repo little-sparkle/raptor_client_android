@@ -15,8 +15,13 @@ import android.widget.Toast;
 import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
 import com.littlesparkle.growler.library.activity.BaseRegisterActivity;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
+import com.littlesparkle.growler.library.http.BaseHttpSubscriber;
+import com.littlesparkle.growler.library.http.DefaultResponse;
+import com.littlesparkle.growler.library.misc.MiscHelper;
 import com.littlesparkle.growler.library.preference.PrefHelper;
 import com.littlesparkle.growler.library.service.DownloadService;
+import com.littlesparkle.growler.library.user.UserRequest;
+import com.littlesparkle.growler.library.user.UserSignUpResponse;
 import com.littlesparkle.growler.raptor.R;
 
 public class RegisterActivity extends BaseRegisterActivity {
@@ -72,11 +77,66 @@ public class RegisterActivity extends BaseRegisterActivity {
 
     @Override
     protected void onSendAuthCodeClick() {
-        Toast.makeText(this, "验证码", Toast.LENGTH_SHORT).show();
+
+        String phoneNumber = mMobileInput.getText().toString();
+
+        if ("".equals(phoneNumber)) {
+            Toast.makeText(this, "请填写手机号码~", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!MiscHelper.checkPhoneNumber(phoneNumber)) {
+            Toast.makeText(this, "格式不对~", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        new UserRequest().signupSendSms(new BaseHttpSubscriber<DefaultResponse>(this, this) {
+            @Override
+            protected void onError(String message) {
+                super.onError(message);
+            }
+
+            @Override
+            public void onNext(DefaultResponse defaultResponse) {
+                System.out.println(defaultResponse.data.toString());
+            }
+        }, phoneNumber);
     }
 
     @Override
     protected void onRegisterClick() {
-        Toast.makeText(this, "注册", Toast.LENGTH_SHORT).show();
+        final String phoneNumber = mMobileInput.getText().toString();
+
+        if ("".equals(phoneNumber)) {
+            return;
+        }
+        if (!MiscHelper.checkPhoneNumber(phoneNumber)) {
+            return;
+        }
+
+        String pwd = mPwdInput.getText().toString();
+        String pwdConfirm = mPwdConfInput.getText().toString();
+
+        if ("".equals(pwd) || "".equals(pwdConfirm)) {
+            Toast.makeText(this, "请确认密码哦~", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!pwd.equals(pwdConfirm)) {
+            Toast.makeText(this, "两次的密码不一样", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!MiscHelper.checkPassword(pwd)) {
+            Toast.makeText(this, "密码格式不正确", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        new UserRequest().signup(new BaseHttpSubscriber<UserSignUpResponse>(this, this) {
+            @Override
+            public void onNext(UserSignUpResponse driverSignUpResponse) {
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                intent.putExtra("mobile", phoneNumber);
+                startActivity(intent);
+                finish();
+            }
+        }, phoneNumber, pwd, mAuthCodeInput.getText().toString());
     }
 }
+

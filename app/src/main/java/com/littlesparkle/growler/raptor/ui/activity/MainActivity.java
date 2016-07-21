@@ -1,6 +1,7 @@
 package com.littlesparkle.growler.raptor.ui.activity;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -39,7 +40,15 @@ import com.amap.api.services.geocoder.RegeocodeResult;
 import com.igexin.sdk.PushManager;
 import com.littlesparkle.growler.library.activity.BaseActivity;
 import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
+import com.littlesparkle.growler.library.http.BaseHttpSubscriber;
+import com.littlesparkle.growler.library.http.Response;
+import com.littlesparkle.growler.library.order.OrderRequest;
+import com.littlesparkle.growler.library.order.RequestOrderResponse;
+import com.littlesparkle.growler.library.order.RequestOrderSubscriber;
+import com.littlesparkle.growler.library.preference.PrefHelper;
+import com.littlesparkle.growler.library.user.UserManager;
 import com.littlesparkle.growler.raptor.R;
+import com.littlesparkle.growler.raptor.entity.PositionEntity;
 import com.littlesparkle.growler.raptor.listener.OnLocationGetListener;
 import com.littlesparkle.growler.raptor.map.LocationTask;
 import com.littlesparkle.growler.raptor.map.MarkerTask;
@@ -60,6 +69,8 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 public class MainActivity extends BaseActivity implements
         AMapLocationListener, View.OnClickListener, AMap.OnCameraChangeListener, AMap.OnMapLoadedListener, OnLocationGetListener {
 
+    public static Activity mainActivity;
+
     private MapView mMapView = null;
     private AMap mAMap = null;
 
@@ -71,12 +82,19 @@ public class MainActivity extends BaseActivity implements
     private Button mButtonCallNow = null;
     private Button mButtonCallLater = null;
     private RadioButton mButtonShunFengChe = null;
-    private RadioButton mButtonKuaiChe = null;
+    private RadioButton mButtonTaxi = null;
     private LinearLayout mLinearNowOrLater = null;
     private TextView mTextViewTimeCheck = null;
     private RelativeLayout mRelativePickContent = null;
     private TimerPickerPopWindow timerPickerPopWindow = null;
-//    private View footerView = null;
+    private RelativeLayout mRelativeLayoutMoney = null;
+    private Button mButtonOrderRequest = null;
+    //叫车相关参数
+    private double src_latitude;
+    private double src_longitude;
+    private double dest_latitude;
+    private double dest_longitude;
+    private int car_type = 1;
 
     private Drawer mDrawer = null;
     private IProfile mProfile = null;
@@ -174,7 +192,6 @@ public class MainActivity extends BaseActivity implements
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch (position) {
                             case 0:
-//                                startActivity(HistoricalJourneyActivity.class);
                                 startActivity(new Intent(MainActivity.this, HistoricalJourneyActivity.class));
                                 break;
                             case 1:
@@ -184,7 +201,6 @@ public class MainActivity extends BaseActivity implements
 
                                 break;
                             case 3:
-//                                startActivity(SettingActivity.class);
                                 startActivity(new Intent(MainActivity.this, SettingActivity.class));
                                 break;
                         }
@@ -226,25 +242,25 @@ public class MainActivity extends BaseActivity implements
         mMapView.onCreate(savedInstanceState);
         initAccountHeader();
         initDrawer();
-        mLocationTask.LocationByTime(40000);
+        mainActivity = this;
     }
 
     public void moveToLatLng(LatLng latLng) {
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.changeLatLng(latLng);
         mAMap.moveCamera(CameraUpdateFactory.zoomTo(18));
-        mAMap.moveCamera(cameraUpdate);
-//        mAMap.animateCamera(cameraUpdate, 10000, new AMap.CancelableCallback() {
-//            @Override
-//            public void onFinish() {
-//
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//
-//            }
-//        });
+//        mAMap.moveCamera(cameraUpdate);
+        mAMap.animateCamera(cameraUpdate, 10000, new AMap.CancelableCallback() {
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
 
     }
 
@@ -272,18 +288,21 @@ public class MainActivity extends BaseActivity implements
         mButtonCallLater = (Button) findViewById(R.id.call_car_later);
         mButtonShunFengChe = (RadioButton) findViewById(R.id.bt_shunfengche);
         mButtonCallNow = (Button) findViewById(R.id.call_car_now);
-        mButtonKuaiChe = (RadioButton) findViewById(R.id.bt_kuaiche);
+        mButtonTaxi = (RadioButton) findViewById(R.id.bt_taxi);
         mLinearNowOrLater = (LinearLayout) findViewById(R.id.linear_Now_Later);
         mTextViewTimeCheck = (TextView) findViewById(R.id.check_time);
         mRelativePickContent = (RelativeLayout) findViewById(R.id.relative_pick_content);
+        mRelativeLayoutMoney = (RelativeLayout) findViewById(R.id.relative_money);
+        mButtonOrderRequest = (Button) findViewById(R.id.bt_order_request);
         timerPickerPopWindow = new TimerPickerPopWindow(this, mRelativePickContent);
 
+        mButtonOrderRequest.setOnClickListener(this);
         mButtonCallNow.setOnClickListener(this);
         mButtonCallLater.setOnClickListener(this);
         mTextViewTo.setOnClickListener(this);
         mTextViewFrom.setOnClickListener(this);
         mButtonShunFengChe.setOnClickListener(this);
-        mButtonKuaiChe.setOnClickListener(this);
+        mButtonTaxi.setOnClickListener(this);
         menuButton.setOnClickListener(this);
         mTextViewTimeCheck.setOnClickListener(this);
 
@@ -340,6 +359,8 @@ public class MainActivity extends BaseActivity implements
                     moveToLatLng(latLng);
                     mSearchTask.searchByLatLng(latLng);
                 }
+                src_latitude = amapLocation.getLatitude();
+                src_longitude = amapLocation.getLongitude();
 
 //                有待更改，这里是在定位成功后进行加marker
                 mMarkerTask.addMainMarker(latLng);
@@ -359,8 +380,12 @@ public class MainActivity extends BaseActivity implements
         switch (v.getId()) {
             case R.id.bt_menu:
 //                这里需要进行判断是否登录过了，如果没有，跳转到登陆界面
-//                mDrawer.openDrawer();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                if (UserManager.isSignedIn(MainActivity.this)) {
+                    mDrawer.openDrawer();
+                } else {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
+
                 break;
             case R.id.tv_to:
                 Intent intent = new Intent(this, DestinationActivity.class);
@@ -374,8 +399,12 @@ public class MainActivity extends BaseActivity implements
                 break;
             case R.id.bt_shunfengche:
                 mLinearNowOrLater.setVisibility(View.VISIBLE);
+                car_type = 2;
+                System.out.println(car_type);
                 break;
-            case R.id.bt_kuaiche:
+            case R.id.bt_taxi:
+                car_type = 1;
+                System.out.println(car_type);
                 mLinearNowOrLater.setVisibility(View.GONE);
                 mRelativeTime.setVisibility(View.GONE);
                 break;
@@ -391,9 +420,10 @@ public class MainActivity extends BaseActivity implements
                 });
                 backgroundAlpha(0.7f);
                 timerPickerPopWindow.showAsDropDown(mRelativePickContent);
-
                 break;
-
+            case R.id.bt_order_request:
+                requestNow();
+                break;
 
         }
     }
@@ -408,8 +438,19 @@ public class MainActivity extends BaseActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_DESTINATION) {
             if (resultCode == RESULT_CODE_DESTINATION_SUCCESS) {
-                String address = data.getStringExtra("address");
+                Bundle bundle = data.getBundleExtra("positionEntity");
+                PositionEntity positionEntity = (PositionEntity) bundle.getSerializable("positionEntity");
+                String address = positionEntity.address;
                 mTextViewTo.setText(address);
+                if (!TextUtils.isEmpty(mTextViewTo.getText().toString())) {
+                    mRelativeLayoutMoney.setVisibility(View.VISIBLE);
+                    mButtonOrderRequest.setVisibility(View.VISIBLE);
+                    LatLng latLng = new LatLng(positionEntity.latitue, positionEntity.longitude);
+                    dest_latitude = positionEntity.latitue;
+                    dest_longitude = positionEntity.longitude;
+                    mMarkerTask.addMarkerDestination(latLng);
+                }
+
             } else if (resultCode == RESULT_CODE_DESTINATION_FAILED) {
 
             }
@@ -429,7 +470,8 @@ public class MainActivity extends BaseActivity implements
         centerLatlng = cameraPosition.target;
         mSearchTask.setOnLocationGetListener(this);
         mSearchTask.searchByLatLng(centerLatlng);
-
+        src_latitude = centerLatlng.latitude;
+        src_longitude = centerLatlng.longitude;
     }
 
     @Override
@@ -443,7 +485,7 @@ public class MainActivity extends BaseActivity implements
                                 R.drawable.icon_location_start)));
         mPositionMark = mAMap.addMarker(markerOptions);
         mPositionMark.setPositionByPixels(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
-//        mLocationTask.LocationByTime(40000);
+        mLocationTask.LocationByTime(40000);
 
     }
 
@@ -456,7 +498,6 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onLocationGet(RegeocodeResult regeocodeResult) {
-
 
         String address = null;
         String pois = regeocodeResult.getRegeocodeAddress().getPois().get(0).toString();
@@ -473,6 +514,20 @@ public class MainActivity extends BaseActivity implements
         }
 
         mTextViewFrom.setText(address);
+    }
+
+    public void requestNow() {
+        int userID = PrefHelper.getInteger(this, "user_id");
+        String token = PrefHelper.getString(this, "token");
+
+        new OrderRequest().requestNow(new BaseHttpSubscriber<RequestOrderResponse>() {
+
+            @Override
+            public void onNext(RequestOrderResponse requestOrderResponse) {
+                System.out.println(requestOrderResponse.toString());
+                
+            }
+        }, userID, token, car_type, src_latitude, src_longitude, dest_latitude, dest_longitude, System.currentTimeMillis());
     }
 
     @Override

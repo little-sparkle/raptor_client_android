@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -21,14 +22,18 @@ import android.widget.Toast;
 import com.littlesparkle.growler.library.activity.BaseActivity;
 import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
 import com.littlesparkle.growler.library.activity.BaseTitleBarActivity;
+import com.littlesparkle.growler.library.preference.PrefHelper;
 import com.littlesparkle.growler.raptor.R;
 import com.littlesparkle.growler.raptor.listener.OnPopwindowClickListener;
 import com.littlesparkle.growler.raptor.ui.views.HeadPopWindow;
 import com.littlesparkle.growler.raptor.utils.DensityUtils;
 import com.littlesparkle.growler.raptor.utils.SaveBMUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 /**
@@ -40,6 +45,9 @@ public class InfoActivity extends BaseTitleBarActivity implements View.OnClickLi
     private HeadPopWindow mHeadPopWindow = null;
     private RelativeLayout driverLayout = null;
     private TextView mTextViewForPop = null;
+    private TextView mTextViewNickName = null;
+    private TextView mTextViewMobile = null;
+
     private File mHeadPhoto = null;
     private Bitmap bmp = null;
 
@@ -75,7 +83,22 @@ public class InfoActivity extends BaseTitleBarActivity implements View.OnClickLi
         driverLayout = (RelativeLayout) findViewById(R.id.setting_driver);
         mTextViewForPop = (TextView) findViewById(R.id.text_for_pop);
         headImageView = (ImageView) findViewById(R.id.imgv_header_setting);
+        String thumb = PrefHelper.getString(this, "thumb", "");
+        if (!TextUtils.isEmpty(thumb)) {
+            ImageLoader.getInstance().displayImage(thumb, headImageView);
+        }
         headImageView.setOnClickListener(this);
+        mTextViewNickName = (TextView) findViewById(R.id.setting_tv_nickname);
+        String nickName = PrefHelper.getString(this, "nickname", "");
+        if (!TextUtils.isEmpty(nickName)) {
+            mTextViewNickName.setText(nickName);
+        }
+        mTextViewMobile = (TextView) findViewById(R.id.setting_tv_number);
+        String mobile = PrefHelper.getString(this, "mobile", "");
+        if (!TextUtils.isEmpty(mobile)) {
+            mTextViewMobile.setText(mobile);
+        }
+
     }
 
     @Override
@@ -182,9 +205,10 @@ public class InfoActivity extends BaseTitleBarActivity implements View.OnClickLi
             Toast.makeText(this, "take photo failed", Toast.LENGTH_SHORT)
                     .show();
         } else {
-            Bitmap bm = BitmapFactory.decodeFile(mHeadPhoto.getAbsolutePath()
-                    + "tmp");
-            headImageView.setImageBitmap(bm);
+//            Bitmap bm = BitmapFactory.decodeFile(mHeadPhoto.getAbsolutePath()
+//                    + "tmp");
+//            headImageView.setImageBitmap(bm);
+            ImageLoader.getInstance().displayImage(Uri.fromFile(mHeadPhoto).toString() + "tmp", headImageView);
         }
 
 
@@ -235,5 +259,14 @@ public class InfoActivity extends BaseTitleBarActivity implements View.OnClickLi
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_CODE_GALLARY_CROP);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mHeadPopWindow.isShowing()) {
+            mHeadPopWindow.dismiss();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

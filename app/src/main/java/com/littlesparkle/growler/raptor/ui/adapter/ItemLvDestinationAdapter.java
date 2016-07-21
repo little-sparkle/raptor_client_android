@@ -17,17 +17,12 @@ import java.util.List;
 public class ItemLvDestinationAdapter extends NormalBaseAdapter<String, ItemLvDestinationAdapter.DestinationViewHolder> {
 
 
-    public ItemLvDestinationAdapter(Context context, @LayoutRes int resource) {
-        super(context, resource);
-    }
 
     public ItemLvDestinationAdapter(Context context, @LayoutRes int resource, List<String> dataList) {
         super(context, resource, dataList);
     }
 
-    public List<String> getEntities() {
-        return mDataList;
-    }
+
 
     @Override
     protected DestinationViewHolder onCreateViewHolder(ViewGroup parent, View convertView) {

@@ -45,7 +45,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
         <RadioButton
-            android:id="@+id/bt_kuaiche"
+            android:id="@+id/bt_taxi"
             android:layout_width="@dimen/bt_kuaiche_width"
             android:layout_height="@dimen/bt_kuaiche_height"
             android:layout_marginLeft="85dp"
@@ -71,15 +71,16 @@
     </com.amap.api.maps2d.MapView>
 
 
-    <RadioGroup android:id="@+id/linear_Now_Later"
-                android:layout_width="@dimen/radio_now_later"
-                android:layout_height="@dimen/bt_kuaiche_height"
-                android:layout_above="@+id/relativeTime"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="@dimen/now_later_from_to_margin"
-                android:layout_marginRight="@dimen/now_later_from_to_margin"
-                android:orientation="horizontal"
-                android:visibility="gone">
+    <RadioGroup
+        android:id="@+id/linear_Now_Later"
+        android:layout_width="@dimen/radio_now_later"
+        android:layout_height="@dimen/bt_kuaiche_height"
+        android:layout_above="@+id/relativeTime"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="@dimen/now_later_from_to_margin"
+        android:layout_marginRight="@dimen/now_later_from_to_margin"
+        android:orientation="horizontal"
+        android:visibility="gone">
         <RadioButton
             android:id="@+id/call_car_now"
             android:layout_width="0dp"
@@ -107,7 +108,8 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="@dimen/now_later_from_to_margin"
         android:layout_marginRight="@dimen/now_later_from_to_margin"
-        android:background="#fff">
+        android:background="#FFF"
+    >
 
 
         <TextView
@@ -146,12 +148,13 @@
             android:background="#d3d3d3"/>
 
         <RelativeLayout
-            android:visibility="gone"
+            android:id="@+id/relative_money"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="50dp"
             android:layout_below="@+id/tv_to"
             android:background="#fff"
-            android:gravity="center">
+            android:gravity="center"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -181,6 +184,18 @@
 
 
         </RelativeLayout>
+
+        <Button
+            android:id="@+id/bt_order_request"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@+id/relative_money"
+            android:layout_marginTop="8dp"
+            android:background="#ffbc00"
+            android:gravity="center"
+            android:text="立即叫车"
+            android:textColor="#FFF"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

@@ -2,6 +2,7 @@ package com.littlesparkle.growler.raptor.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,7 +19,9 @@ import com.littlesparkle.growler.library.activity.BaseActivity;
 import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
 import com.littlesparkle.growler.raptor.R;
+import com.littlesparkle.growler.raptor.entity.PositionEntity;
 import com.littlesparkle.growler.raptor.map.PoiSearchTask;
+import com.littlesparkle.growler.raptor.map.SearchTask;
 import com.littlesparkle.growler.raptor.ui.adapter.ItemLvDestinationAdapter;
 
 import java.util.ArrayList;
@@ -87,16 +90,19 @@ public class DestinationActivity extends BaseActivity implements TextWatcher, Vi
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 mPoiSearchTask.search(mEditText.getText().toString(), "beijing");
-//                mItemLvDestinationAdapter.notifyDataSetChanged();
                 break;
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        poiEntities = mItemLvDestinationAdapter.getEntities();
+
+        List<PositionEntity> positionEntities = mPoiSearchTask.entities;
+
         Intent intent = new Intent();
-        intent.putExtra("address", poiEntities.get(position));
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("positionEntity", positionEntities.get(position));
+        intent.putExtra("positionEntity", bundle);
         setResult(MainActivity.RESULT_CODE_DESTINATION_SUCCESS, intent);
         this.finish();
     }

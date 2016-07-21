@@ -1,9 +1,11 @@
 package com.littlesparkle.growler.raptor.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by dell on 2016/7/5.
  */
-public class PositionEntity {
+public class PositionEntity implements Serializable{
     public double latitue;
 
     public double longitude;

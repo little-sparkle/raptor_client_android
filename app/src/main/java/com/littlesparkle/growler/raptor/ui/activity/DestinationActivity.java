@@ -98,7 +98,6 @@ public class DestinationActivity extends BaseActivity implements TextWatcher, Vi
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         List<PositionEntity> positionEntities = mPoiSearchTask.entities;
-
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putSerializable("positionEntity", positionEntities.get(position));

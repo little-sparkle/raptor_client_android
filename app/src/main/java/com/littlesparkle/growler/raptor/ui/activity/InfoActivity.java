@@ -263,10 +263,11 @@ public class InfoActivity extends BaseTitleBarActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-        if (mHeadPopWindow.isShowing()) {
+        if (mHeadPopWindow != null && mHeadPopWindow.isShowing()) {
             mHeadPopWindow.dismiss();
         } else {
             super.onBackPressed();
         }
+
     }
 }

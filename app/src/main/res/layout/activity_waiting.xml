@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:background="#FFF"
+                android:layout_height="131dp">
+
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/base_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_alignParentTop="true"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="83dp"
+        android:layout_below="@+id/title_bar">
+        <ImageView android:layout_width="48dp"
+                   android:layout_height="48dp"
+                   android:layout_centerVertical="true"
+                   android:layout_marginLeft="17dp"
+                   android:src="@drawable/waiting_driver_head"/>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

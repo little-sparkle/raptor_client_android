@@ -39,15 +39,13 @@ import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.igexin.sdk.PushManager;
 import com.littlesparkle.growler.library.activity.BaseActivity;
-import com.littlesparkle.growler.library.activity.BaseFragmentActivity;
 import com.littlesparkle.growler.library.http.BaseHttpSubscriber;
-import com.littlesparkle.growler.library.http.Response;
 import com.littlesparkle.growler.library.order.OrderRequest;
-import com.littlesparkle.growler.library.order.RequestOrderResponse;
-import com.littlesparkle.growler.library.order.RequestOrderSubscriber;
+import com.littlesparkle.growler.library.order.response.RequestOrderResponse;
 import com.littlesparkle.growler.library.preference.PrefHelper;
 import com.littlesparkle.growler.library.user.UserManager;
 import com.littlesparkle.growler.raptor.R;
+import com.littlesparkle.growler.raptor.boradcastreceiver.OrderReceiver;
 import com.littlesparkle.growler.raptor.entity.PositionEntity;
 import com.littlesparkle.growler.raptor.listener.OnLocationGetListener;
 import com.littlesparkle.growler.raptor.map.LocationTask;
@@ -64,6 +62,11 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
+import de.greenrobot.event.ThreadMode;
 
 
 public class MainActivity extends BaseActivity implements
@@ -113,7 +116,6 @@ public class MainActivity extends BaseActivity implements
 
     private static LatLng centerLatlng = null;
 
-
     // 设置侧滑菜单的header
     private void initAccountHeader() {
         mProfile = new ProfileDrawerItem()
@@ -137,7 +139,6 @@ public class MainActivity extends BaseActivity implements
                 .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
                     @Override
                     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-//                        startActivity(InfoActivity.class);
                         startActivity(new Intent(MainActivity.this, InfoActivity.class));
                         return false;
                     }
@@ -195,9 +196,19 @@ public class MainActivity extends BaseActivity implements
                                 startActivity(new Intent(MainActivity.this, HistoricalJourneyActivity.class));
                                 break;
                             case 1:
-
+//                                Intent purseIntent = new Intent(MainActivity.this, PurseActivity.class);
+//                                purseIntent.putExtra("title", "钱包");
+//                                purseIntent.putExtra("url", "http://www.baidu.com");
+//                                //还需要传入user_id 和 token
+//                                startActivity(purseIntent);
+                                startActivity(new Intent(MainActivity.this, CancelOrderActivity.class));
                                 break;
                             case 2:
+                                Intent serviceIntent = new Intent(MainActivity.this, PurseActivity.class);
+                                serviceIntent.putExtra("title", "客服");
+                                serviceIntent.putExtra("url", "http://www.sina.com");
+                                //还需要传入user_id 和 token
+                                startActivity(serviceIntent);
 
                                 break;
                             case 3:
@@ -242,6 +253,7 @@ public class MainActivity extends BaseActivity implements
         mMapView.onCreate(savedInstanceState);
         initAccountHeader();
         initDrawer();
+        EventBus.getDefault().register(this);
         mainActivity = this;
     }
 
@@ -249,18 +261,18 @@ public class MainActivity extends BaseActivity implements
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.changeLatLng(latLng);
         mAMap.moveCamera(CameraUpdateFactory.zoomTo(18));
-//        mAMap.moveCamera(cameraUpdate);
-        mAMap.animateCamera(cameraUpdate, 10000, new AMap.CancelableCallback() {
-            @Override
-            public void onFinish() {
-
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-        });
+        mAMap.moveCamera(cameraUpdate);
+//        mAMap.animateCamera(cameraUpdate, 10000, new AMap.CancelableCallback() {
+//            @Override
+//            public void onFinish() {
+//
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//
+//            }
+//        });
 
     }
 
@@ -295,6 +307,7 @@ public class MainActivity extends BaseActivity implements
         mRelativeLayoutMoney = (RelativeLayout) findViewById(R.id.relative_money);
         mButtonOrderRequest = (Button) findViewById(R.id.bt_order_request);
         timerPickerPopWindow = new TimerPickerPopWindow(this, mRelativePickContent);
+
 
         mButtonOrderRequest.setOnClickListener(this);
         mButtonCallNow.setOnClickListener(this);
@@ -343,6 +356,7 @@ public class MainActivity extends BaseActivity implements
         super.onDestroy();
         mLocationTask.stopLocation();
         mMapView.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     //定位回调
@@ -422,6 +436,7 @@ public class MainActivity extends BaseActivity implements
                 timerPickerPopWindow.showAsDropDown(mRelativePickContent);
                 break;
             case R.id.bt_order_request:
+                showProgress();
                 requestNow();
                 break;
 
@@ -485,7 +500,7 @@ public class MainActivity extends BaseActivity implements
                                 R.drawable.icon_location_start)));
         mPositionMark = mAMap.addMarker(markerOptions);
         mPositionMark.setPositionByPixels(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
-        mLocationTask.LocationByTime(40000);
+        mLocationTask.LocationByTime(4000);
 
     }
 
@@ -518,21 +533,62 @@ public class MainActivity extends BaseActivity implements
 
     public void requestNow() {
         int userID = PrefHelper.getInteger(this, "user_id");
-        String token = PrefHelper.getString(this, "token");
-
         new OrderRequest().requestNow(new BaseHttpSubscriber<RequestOrderResponse>() {
-
             @Override
             public void onNext(RequestOrderResponse requestOrderResponse) {
                 System.out.println(requestOrderResponse.toString());
-                
+                dismissProgress();
+//                mMarkerTask.hideCarMarker();
             }
-        }, userID, token, car_type, src_latitude, src_longitude, dest_latitude, dest_longitude, System.currentTimeMillis());
+        }, userID, UserManager.getToken(this), car_type, src_latitude, src_longitude, dest_latitude, dest_longitude, 1, System.currentTimeMillis());
     }
+
+
+    @Subscribe(threadMode = ThreadMode.MainThread)
+    public void onOrderResponse(int order_id) {
+        switch (order_id) {
+            case OrderReceiver.is_called_car:
+
+                break;
+            case OrderReceiver.has_received_orders:
+
+                break;
+            case OrderReceiver.has_orders:
+
+                break;
+            case OrderReceiver.arrive_at_the_boarding:
+
+                break;
+            case OrderReceiver.began:
+
+                break;
+            case OrderReceiver.Trip_over_waiting_for_payment:
+
+                break;
+            case OrderReceiver.Trip_to_suspend:
+
+                break;
+            case OrderReceiver.Trip_over_has_been_payment:
+
+                break;
+            case OrderReceiver.Trip_accident_terminates:
+
+                break;
+            case OrderReceiver.No_driver_response:
+
+                break;
+            case OrderReceiver.Drivers_to_cancel_the_order:
+
+                break;
+            case OrderReceiver.Passengers_to_cancel_the_order:
+
+                break;
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
-
         if (mDrawer.isDrawerOpen()) {
             mDrawer.closeDrawer();
         } else if (timerPickerPopWindow.isShowing()) {

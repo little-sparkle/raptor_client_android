@@ -80,4 +80,11 @@ public class MarkerTask {
 
     }
 
+    public void hideCarMarker() {
+        for (Marker marker : markers) {
+            marker.remove();
+        }
+
+    }
+
 }

@@ -98,6 +98,20 @@
             android:name=".ui.activity.RegisterActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
+        <activity android:name=".ui.activity.PurseActivity"
+                  android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
+        <activity android:name=".ui.activity.CustomerServiceActivity"
+                  android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
+        <activity android:name=".ui.activity.PassengerEvaluateActivity"
+                  android:theme="@style/Theme.Design.Light.NoActionBar">
+
+        </activity>
+        <activity android:name=".ui.activity.CancelOrderActivity"
+                  android:theme="@style/Theme.Design.Light.NoActionBar">
+
+        </activity>
 
         <receiver
             android:name=".boradcastreceiver.DownloadReceiver"

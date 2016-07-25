@@ -49,5 +49,7 @@
     <string name="set_company_address">设置公司地址</string>
     <string name="help">帮助</string>
     <string name="product">产品</string>
+    <string name="waiting">等待接驾</string>
+    <string name="waitingForOrder">正在为您叫车，请稍候</string>
 
 </resources>

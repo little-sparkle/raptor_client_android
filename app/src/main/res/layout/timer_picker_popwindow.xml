@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="300dp"
-              android:orientation="vertical"
-              android:paddingLeft="10dp"
-              android:paddingRight="10dp"
-              android:paddingTop="20dp">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp" android:paddingTop="20dp">
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#fff">
@@ -46,28 +47,30 @@
         android:layout_height="240dp"
         android:background="#fff"
         android:paddingBottom="30dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
         android:paddingTop="30dp">
-        <com.littlesparkle.growler.raptor.ui.views.Picker
+        <cn.carbswang.android.numberpickerview.library.NumberPickerView
             android:id="@+id/picker_date"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
+            app:npv_DividerColor="#d6d6d6"
+            app:npv_ShowCount="2"
         />
-        <com.littlesparkle.growler.raptor.ui.views.Picker
+        <cn.carbswang.android.numberpickerview.library.NumberPickerView
             android:id="@+id/picker_hour"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
+            app:npv_DividerColor="#d6d6d6"
         />
-        <com.littlesparkle.growler.raptor.ui.views.Picker
+        <cn.carbswang.android.numberpickerview.library.NumberPickerView
             android:id="@+id/picker_minute"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
+            app:npv_DividerColor="#d6d6d6"
+            app:npv_ShowCount="3"
+
         />
 
     </LinearLayout>

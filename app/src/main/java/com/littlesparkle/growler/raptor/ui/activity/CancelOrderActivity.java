@@ -6,15 +6,25 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.littlesparkle.growler.library.activity.CancelActivity;
+import com.littlesparkle.growler.library.http.BaseHttpSubscriber;
+import com.littlesparkle.growler.library.http.DefaultResponse;
+import com.littlesparkle.growler.library.order.OrderCustomerRequest;
+import com.littlesparkle.growler.library.preference.PrefHelper;
+import com.littlesparkle.growler.library.user.UserManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Subscriber;
 
 /**
  * Created by dell on 2016/7/25.
  */
 public class CancelOrderActivity extends CancelActivity {
 
+
+    private int reason_code;
+    private String reason;
     private static List<String> entities = new ArrayList<>();
 
     static {
@@ -35,11 +45,24 @@ public class CancelOrderActivity extends CancelActivity {
 
     @Override
     protected void onCancelButtonClick() {
-        Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
+        new OrderCustomerRequest()
+                .cancelOrder(new BaseHttpSubscriber<DefaultResponse>(this, this) {
+                                 @Override
+                                 public void onNext(DefaultResponse defaultResponse) {
+                                     Toast.makeText(CancelOrderActivity.this, "取消成功", Toast.LENGTH_SHORT).show();
+                                 }
+                             }, PrefHelper.getInteger(CancelOrderActivity.this, "user_id"),
+                        UserManager.getToken(CancelOrderActivity.this),
+                        PrefHelper.getInteger(CancelOrderActivity.this, "order_id"),
+                        2000,
+                        reason_code,
+                        reason);
+
     }
 
     @Override
     protected void onCancelLvItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(this, entities.get(position), Toast.LENGTH_SHORT).show();
+        reason = entities.get(position);
+        reason_code = position;
     }
 }

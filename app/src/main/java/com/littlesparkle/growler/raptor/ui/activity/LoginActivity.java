@@ -14,6 +14,7 @@ import com.littlesparkle.growler.library.activity.BaseLoginActivity;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
 import com.littlesparkle.growler.library.bean.User;
 import com.littlesparkle.growler.library.http.BaseHttpSubscriber;
+import com.littlesparkle.growler.library.http.ErrorResponse;
 import com.littlesparkle.growler.library.log.Logger;
 import com.littlesparkle.growler.library.misc.MiscHelper;
 import com.littlesparkle.growler.library.preference.PrefHelper;
@@ -69,9 +70,8 @@ public class LoginActivity extends BaseLoginActivity {
 
         new UserRequest().signin(new BaseHttpSubscriber<UserSignInResponse>(this, this) {
             @Override
-            protected void onError(String errorMessage) {
-                super.onError(errorMessage);
-                Logger.e("driver signin error: " + errorMessage);
+            protected void onError(ErrorResponse error) {
+                super.onError(error);
             }
 
             @Override

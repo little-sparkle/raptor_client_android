@@ -1,5 +1,7 @@
 package com.littlesparkle.growler.raptor.map;
 
+import android.view.View;
+
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.model.BitmapDescriptor;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
@@ -24,15 +26,17 @@ public class MarkerTask {
         mAMap = aMap;
     }
 
+
     //添加定位点marker
     public void addMainMarker(LatLng latLng) {
         mainMarkerOptions.position(latLng);
         mainMarkerOptions.draggable(false);
-        mainMarkerOptions.anchor(0.1f, 0.1f);
+        mainMarkerOptions.anchor(0.5f, 0.5f);
 //        设置图片
         mainMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.location_header_default));
         if (mainMarker == null) {
             mainMarker = mAMap.addMarker(mainMarkerOptions);
+            mainMarker.setZIndex(200);
         } else {
             mainMarker.setPosition(latLng);
 
@@ -44,7 +48,7 @@ public class MarkerTask {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.draggable(false);
-        markerOptions.anchor(0.1f, 0.1f);
+        markerOptions.anchor(0.5f, 0.5f);
         if (destinationmarker == null) {
             destinationmarker = mAMap.addMarker(markerOptions);
         } else {
@@ -80,11 +84,17 @@ public class MarkerTask {
 
     }
 
-    public void hideCarMarker() {
+    public void hideMarker() {
         for (Marker marker : markers) {
-            marker.remove();
+            marker.setVisible(false);
         }
-
     }
+
+    public void showMarker() {
+        for (Marker marker : markers) {
+            marker.setVisible(true);
+        }
+    }
+
 
 }

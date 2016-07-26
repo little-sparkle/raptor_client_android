@@ -63,9 +63,9 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.daimajia.numberprogressbar:library:1.2@aar'
     compile 'org.xutils:xutils:3.3.36'
-    //    compile(name: 'library-debug', ext: 'aar', version: '1.0')
     compile files('libs/AMap2DMap_2.9.0_AMapSearch_3.3.0_AMapLocation_2.5.1_20160616.jar')
     compile 'me.xiaopan:switchbutton:1.2.0'
     compile project(':library')
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    compile 'cn.carbswang.android:NumberPickerView:1.0.8'
 }

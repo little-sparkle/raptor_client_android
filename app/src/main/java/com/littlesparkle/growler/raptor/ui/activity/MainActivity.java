@@ -40,6 +40,9 @@ import com.amap.api.services.geocoder.RegeocodeResult;
 import com.igexin.sdk.PushManager;
 import com.littlesparkle.growler.library.activity.BaseActivity;
 import com.littlesparkle.growler.library.http.BaseHttpSubscriber;
+import com.littlesparkle.growler.library.http.DefaultResponse;
+import com.littlesparkle.growler.library.http.ErrorResponse;
+import com.littlesparkle.growler.library.order.OrderCustomerRequest;
 import com.littlesparkle.growler.library.order.OrderRequest;
 import com.littlesparkle.growler.library.order.response.RequestOrderResponse;
 import com.littlesparkle.growler.library.preference.PrefHelper;
@@ -63,7 +66,9 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
+import java.security.Timestamp;
+import java.util.Timer;
+
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
 import de.greenrobot.event.ThreadMode;
@@ -92,12 +97,19 @@ public class MainActivity extends BaseActivity implements
     private TimerPickerPopWindow timerPickerPopWindow = null;
     private RelativeLayout mRelativeLayoutMoney = null;
     private Button mButtonOrderRequest = null;
+    private RelativeLayout mRelativeOrderTitle = null;
+    private TextView mTextViewCancelOrder = null;
+
+
     //叫车相关参数
     private double src_latitude;
     private double src_longitude;
     private double dest_latitude;
     private double dest_longitude;
     private int car_type = 1;
+    private int type = 1;
+    private long TimeStamp;
+
 
     private Drawer mDrawer = null;
     private IProfile mProfile = null;
@@ -111,6 +123,8 @@ public class MainActivity extends BaseActivity implements
     public static final int REQUEST_CODE_DESTINATION = 50;
     public static final int RESULT_CODE_DESTINATION_SUCCESS = 110;
     public static final int RESULT_CODE_DESTINATION_FAILED = 120;
+    public static final int RESULT_CODE_CANCEL_ORDER = 180;
+
 
     public static boolean locationAndMove = true;
 
@@ -196,12 +210,11 @@ public class MainActivity extends BaseActivity implements
                                 startActivity(new Intent(MainActivity.this, HistoricalJourneyActivity.class));
                                 break;
                             case 1:
-//                                Intent purseIntent = new Intent(MainActivity.this, PurseActivity.class);
-//                                purseIntent.putExtra("title", "钱包");
-//                                purseIntent.putExtra("url", "http://www.baidu.com");
-//                                //还需要传入user_id 和 token
-//                                startActivity(purseIntent);
-                                startActivity(new Intent(MainActivity.this, CancelOrderActivity.class));
+                                Intent purseIntent = new Intent(MainActivity.this, PurseActivity.class);
+                                purseIntent.putExtra("title", "钱包");
+                                purseIntent.putExtra("url", "http://www.baidu.com");
+                                //还需要传入user_id 和 token
+                                startActivity(purseIntent);
                                 break;
                             case 2:
                                 Intent serviceIntent = new Intent(MainActivity.this, PurseActivity.class);
@@ -307,8 +320,10 @@ public class MainActivity extends BaseActivity implements
         mRelativeLayoutMoney = (RelativeLayout) findViewById(R.id.relative_money);
         mButtonOrderRequest = (Button) findViewById(R.id.bt_order_request);
         timerPickerPopWindow = new TimerPickerPopWindow(this, mRelativePickContent);
+        mRelativeOrderTitle = (RelativeLayout) findViewById(R.id.relative_main_title_order);
+        mTextViewCancelOrder = (TextView) findViewById(R.id.tv_cancel_order);
 
-
+        mTextViewCancelOrder.setOnClickListener(this);
         mButtonOrderRequest.setOnClickListener(this);
         mButtonCallNow.setOnClickListener(this);
         mButtonCallLater.setOnClickListener(this);
@@ -393,6 +408,7 @@ public class MainActivity extends BaseActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_menu:
+
 //                这里需要进行判断是否登录过了，如果没有，跳转到登陆界面
                 if (UserManager.isSignedIn(MainActivity.this)) {
                     mDrawer.openDrawer();
@@ -437,7 +453,11 @@ public class MainActivity extends BaseActivity implements
                 break;
             case R.id.bt_order_request:
                 showProgress();
-                requestNow();
+                requestOrder();
+                break;
+
+            case R.id.tv_cancel_order:
+                startActivityForResult(new Intent(MainActivity.this, CancelOrderActivity.class), RESULT_CODE_CANCEL_ORDER);
                 break;
 
         }
@@ -469,6 +489,13 @@ public class MainActivity extends BaseActivity implements
             } else if (resultCode == RESULT_CODE_DESTINATION_FAILED) {
 
             }
+        } else if (requestCode == RESULT_CODE_CANCEL_ORDER) {
+            mRelativeOrderTitle.setVisibility(View.GONE);
+            mButtonOrderRequest.setVisibility(View.GONE);
+            mRelativeLayoutMoney.setVisibility(View.GONE);
+            mMarkerTask.showMarker();
+            mPositionMark.setTitle("上车地点");
+            mPositionMark.hideInfoWindow();
         }
     }
 
@@ -492,13 +519,14 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onMapLoaded() {
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.anchor(0.5f, 0.5f);
+        markerOptions.anchor(0.5f, 1f);
         markerOptions.position(new LatLng(0, 0));
         markerOptions
                 .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
                         .decodeResource(getResources(),
                                 R.drawable.icon_location_start)));
         mPositionMark = mAMap.addMarker(markerOptions);
+        mPositionMark.setZIndex(220);
         mPositionMark.setPositionByPixels(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
         mLocationTask.LocationByTime(4000);
 
@@ -531,16 +559,50 @@ public class MainActivity extends BaseActivity implements
         mTextViewFrom.setText(address);
     }
 
-    public void requestNow() {
+    public void requestOrder() {
+
         int userID = PrefHelper.getInteger(this, "user_id");
-        new OrderRequest().requestNow(new BaseHttpSubscriber<RequestOrderResponse>() {
-            @Override
-            public void onNext(RequestOrderResponse requestOrderResponse) {
-                System.out.println(requestOrderResponse.toString());
-                dismissProgress();
-//                mMarkerTask.hideCarMarker();
-            }
-        }, userID, UserManager.getToken(this), car_type, src_latitude, src_longitude, dest_latitude, dest_longitude, 1, System.currentTimeMillis());
+
+        if (car_type == 2 && type == 2) {
+
+        } else {
+            TimeStamp = System.currentTimeMillis();
+
+        }
+
+        new OrderRequest()
+                .requestNow(new BaseHttpSubscriber<RequestOrderResponse>() {
+                                @Override
+                                protected void onError(ErrorResponse error) {
+                                    super.onError(error);
+                                    Toast.makeText(MainActivity.this, error.data.err_msg, Toast.LENGTH_SHORT).show();
+                                    dismissProgress();
+
+                                }
+
+                                @Override
+                                public void onNext(RequestOrderResponse requestOrderResponse) {
+                                    System.out.println(requestOrderResponse.toString());
+                                    dismissProgress();
+
+//                完成请求后，根据请求状态改变页面
+                                    mRelativeOrderTitle.setVisibility(View.VISIBLE);
+                                    int orderId = requestOrderResponse.data.order.order_id;
+                                    mPositionMark.setTitle("正为您寻找车辆");
+                                    mPositionMark.showInfoWindow();
+                                    PrefHelper.setInteger(MainActivity.this, "order_id", orderId);
+                                    mMarkerTask.hideMarker();
+
+
+                                }
+                            },
+                        userID,
+                        UserManager.getToken(this),
+                        car_type, src_latitude,
+                        src_longitude, dest_latitude,
+                        dest_longitude,
+                        type,
+                        TimeStamp);
     }
 
 

@@ -17,6 +17,7 @@ import com.littlesparkle.growler.library.activity.BaseRegisterActivity;
 import com.littlesparkle.growler.library.activity.HandlerActivity;
 import com.littlesparkle.growler.library.http.BaseHttpSubscriber;
 import com.littlesparkle.growler.library.http.DefaultResponse;
+import com.littlesparkle.growler.library.http.ErrorResponse;
 import com.littlesparkle.growler.library.misc.MiscHelper;
 import com.littlesparkle.growler.library.preference.PrefHelper;
 import com.littlesparkle.growler.library.service.DownloadService;
@@ -90,8 +91,8 @@ public class RegisterActivity extends BaseRegisterActivity {
         }
         new UserRequest().signupSendSms(new BaseHttpSubscriber<DefaultResponse>(this, this) {
             @Override
-            protected void onError(String message) {
-                super.onError(message);
+            protected void onError(ErrorResponse error) {
+                super.onError(error);
             }
 
             @Override

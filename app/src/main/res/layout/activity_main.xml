@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/main_title_bar"
@@ -36,12 +35,52 @@
             android:layout_marginEnd="@dimen/bt_message_marginEnd"
             android:background="@drawable/message"/>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_main_title_order"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="#fff"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_title_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/wait_order_request"
+            android:textColor="#464646"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/tv_cancel_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="#FFF"
+            android:text="@string/cancelOrder"
+            android:textColor="#464646"
+            android:textSize="14sp"/>
+
+    </RelativeLayout>
+
+
+    <com.amap.api.maps2d.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relative_order_info">
+    </com.amap.api.maps2d.MapView>
     <RadioGroup
         android:id="@+id/main_navi_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/main_navi_bar_height"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/main_title_bar"
+        android:background="#FFF"
         android:gravity="center_vertical"
         android:orientation="horizontal">
         <RadioButton
@@ -61,16 +100,15 @@
 
     </RadioGroup>
 
-
-    <com.amap.api.maps2d.MapView
-        android:id="@+id/mapView"
+    <RelativeLayout
+        android:id="@+id/relative_order_info"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/from_and_to"
-        android:layout_below="@+id/main_navi_bar">
-    </com.amap.api.maps2d.MapView>
+        android:layout_height="80dp"
+        android:layout_below="@+id/main_title_bar"
+        android:background="#FFF"
+        android:visibility="gone">
 
-
+    </RelativeLayout>
     <RadioGroup
         android:id="@+id/linear_Now_Later"
         android:layout_width="@dimen/radio_now_later"

@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,10 +42,9 @@ import com.amap.api.services.geocoder.RegeocodeResult;
 import com.igexin.sdk.PushManager;
 import com.littlesparkle.growler.library.activity.BaseActivity;
 import com.littlesparkle.growler.library.http.BaseHttpSubscriber;
-import com.littlesparkle.growler.library.http.DefaultResponse;
 import com.littlesparkle.growler.library.http.ErrorResponse;
-import com.littlesparkle.growler.library.order.OrderCustomerRequest;
 import com.littlesparkle.growler.library.order.OrderRequest;
+import com.littlesparkle.growler.library.order.response.OrderInfoResponse;
 import com.littlesparkle.growler.library.order.response.RequestOrderResponse;
 import com.littlesparkle.growler.library.preference.PrefHelper;
 import com.littlesparkle.growler.library.user.UserManager;
@@ -54,6 +55,7 @@ import com.littlesparkle.growler.raptor.listener.OnLocationGetListener;
 import com.littlesparkle.growler.raptor.map.LocationTask;
 import com.littlesparkle.growler.raptor.map.MarkerTask;
 import com.littlesparkle.growler.raptor.map.SearchTask;
+import com.littlesparkle.growler.raptor.service.OrderInfoService;
 import com.littlesparkle.growler.raptor.ui.views.TimerPickerPopWindow;
 import com.littlesparkle.growler.raptor.utils.DensityUtils;
 import com.littlesparkle.growler.raptor.utils.SystemStatusManager;
@@ -65,9 +67,6 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-
-import java.security.Timestamp;
-import java.util.Timer;
 
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
@@ -99,6 +98,7 @@ public class MainActivity extends BaseActivity implements
     private Button mButtonOrderRequest = null;
     private RelativeLayout mRelativeOrderTitle = null;
     private TextView mTextViewCancelOrder = null;
+    private RadioGroup mRadioGroupNaviBar = null;
 
 
     //叫车相关参数
@@ -210,11 +210,13 @@ public class MainActivity extends BaseActivity implements
                                 startActivity(new Intent(MainActivity.this, HistoricalJourneyActivity.class));
                                 break;
                             case 1:
-                                Intent purseIntent = new Intent(MainActivity.this, PurseActivity.class);
-                                purseIntent.putExtra("title", "钱包");
-                                purseIntent.putExtra("url", "http://www.baidu.com");
-                                //还需要传入user_id 和 token
-                                startActivity(purseIntent);
+//                                Intent purseIntent = new Intent(MainActivity.this, PurseActivity.class);
+//                                purseIntent.putExtra("title", "钱包");
+//                                purseIntent.putExtra("url", "http://www.baidu.com");
+//                                //还需要传入user_id 和 token
+//                                startActivity(purseIntent);
+//                                这里是进行调试取消接口用得
+                                startActivity(new Intent(MainActivity.this, CancelOrderActivity.class));
                                 break;
                             case 2:
                                 Intent serviceIntent = new Intent(MainActivity.this, PurseActivity.class);
@@ -322,6 +324,8 @@ public class MainActivity extends BaseActivity implements
         timerPickerPopWindow = new TimerPickerPopWindow(this, mRelativePickContent);
         mRelativeOrderTitle = (RelativeLayout) findViewById(R.id.relative_main_title_order);
         mTextViewCancelOrder = (TextView) findViewById(R.id.tv_cancel_order);
+        mRadioGroupNaviBar = (RadioGroup) findViewById(R.id.main_navi_bar);
+
 
         mTextViewCancelOrder.setOnClickListener(this);
         mButtonOrderRequest.setOnClickListener(this);
@@ -339,6 +343,17 @@ public class MainActivity extends BaseActivity implements
         }
         mAMap.setOnCameraChangeListener(this);
         mAMap.setOnMapLoadedListener(this);
+//        mAMap.setInfoWindowAdapter(new AMap.InfoWindowAdapter() {
+//            @Override
+//            public View getInfoWindow(Marker marker) {
+//                return null;
+//            }
+//
+//            @Override
+//            public View getInfoContents(Marker marker) {
+//                return null;
+//            }
+//        });
         mSearchTask = new SearchTask(this.getApplicationContext());
         mMarkerTask = new MarkerTask(mAMap);
         mLocationTask = new LocationTask(mAMap, this.getApplicationContext(), this);
@@ -423,9 +438,11 @@ public class MainActivity extends BaseActivity implements
                 break;
             case R.id.call_car_now:
                 mRelativeTime.setVisibility(View.GONE);
+                type = 1;
                 break;
             case R.id.call_car_later:
                 mRelativeTime.setVisibility(View.VISIBLE);
+                type = 2;
                 break;
             case R.id.bt_shunfengche:
                 mLinearNowOrLater.setVisibility(View.VISIBLE);
@@ -490,12 +507,18 @@ public class MainActivity extends BaseActivity implements
 
             }
         } else if (requestCode == RESULT_CODE_CANCEL_ORDER) {
-            mRelativeOrderTitle.setVisibility(View.GONE);
-            mButtonOrderRequest.setVisibility(View.GONE);
-            mRelativeLayoutMoney.setVisibility(View.GONE);
-            mMarkerTask.showMarker();
-            mPositionMark.setTitle("上车地点");
-            mPositionMark.hideInfoWindow();
+            if (resultCode == CancelOrderActivity.CANCEL_SUCCESS) {
+                mRelativeOrderTitle.setVisibility(View.GONE);
+                mButtonOrderRequest.setVisibility(View.GONE);
+                mRelativeLayoutMoney.setVisibility(View.GONE);
+                mRadioGroupNaviBar.setVisibility(View.VISIBLE);
+                mTextViewTo.setText("");
+                mMarkerTask.showMarker();
+                mPositionMark.setTitle("");
+                stopService(new Intent(MainActivity.this, OrderInfoService.class));
+                mPositionMark.hideInfoWindow();
+            }
+
         }
     }
 
@@ -559,17 +582,9 @@ public class MainActivity extends BaseActivity implements
         mTextViewFrom.setText(address);
     }
 
-    public void requestOrder() {
 
+    public void sendRequestOrder() {
         int userID = PrefHelper.getInteger(this, "user_id");
-
-        if (car_type == 2 && type == 2) {
-
-        } else {
-            TimeStamp = System.currentTimeMillis();
-
-        }
-
         new OrderRequest()
                 .requestNow(new BaseHttpSubscriber<RequestOrderResponse>() {
                                 @Override
@@ -577,40 +592,65 @@ public class MainActivity extends BaseActivity implements
                                     super.onError(error);
                                     Toast.makeText(MainActivity.this, error.data.err_msg, Toast.LENGTH_SHORT).show();
                                     dismissProgress();
-
                                 }
 
                                 @Override
                                 public void onNext(RequestOrderResponse requestOrderResponse) {
                                     System.out.println(requestOrderResponse.toString());
                                     dismissProgress();
-
-//                完成请求后，根据请求状态改变页面
+                                    //完成请求后，根据请求状态改变页面
                                     mRelativeOrderTitle.setVisibility(View.VISIBLE);
+                                    mRadioGroupNaviBar.setVisibility(View.GONE);
+                                    mButtonOrderRequest.setVisibility(View.GONE);
                                     int orderId = requestOrderResponse.data.order.order_id;
                                     mPositionMark.setTitle("正为您寻找车辆");
                                     mPositionMark.showInfoWindow();
-                                    PrefHelper.setInteger(MainActivity.this, "order_id", orderId);
+                                    if (type == 2) {
+                                        PrefHelper.setInteger(MainActivity.this, "appointment_order_id", orderId);
+                                    } else {
+                                        PrefHelper.setInteger(MainActivity.this, "order_id", orderId);
+                                    }
                                     mMarkerTask.hideMarker();
 
-
+                                    startService(new Intent(MainActivity.this, OrderInfoService.class));
                                 }
                             },
                         userID,
                         UserManager.getToken(this),
-                        car_type, src_latitude,
-                        src_longitude, dest_latitude,
-                        dest_longitude,
+                        car_type,
+                        src_latitude, src_longitude,
+                        dest_latitude, dest_longitude,
                         type,
                         TimeStamp);
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MainThread)
-    public void onOrderResponse(int order_id) {
-        switch (order_id) {
-            case OrderReceiver.is_called_car:
+    public void requestOrder() {
 
+        if (car_type == 2 && type == 2) {
+            if (timerPickerPopWindow.getAppointmentTime() != 0) {
+                TimeStamp = timerPickerPopWindow.getAppointmentTime();
+                sendRequestOrder();
+            } else {
+                dismissProgress();
+                Toast.makeText(MainActivity.this, "请选择出发时间~", Toast.LENGTH_SHORT).show();
+                timerPickerPopWindow.showAsDropDown(mRelativePickContent);
+                return;
+            }
+
+        } else {
+            TimeStamp = System.currentTimeMillis();
+            sendRequestOrder();
+        }
+
+
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MainThread)
+    public void onOrderResponse(OrderInfoResponse orderInfoResponse) {
+        switch (orderInfoResponse.data.order.status_code) {
+            case OrderReceiver.is_called_car:
                 break;
             case OrderReceiver.has_received_orders:
 

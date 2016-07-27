@@ -30,8 +30,7 @@ public class OrderReceiver extends PushGeTuiReceiver {
     public void onMessageGet(Context context, String data) {
         Gson gson = new Gson();
         OrderInfoResponse orderInfoResponse = gson.fromJson(data, OrderInfoResponse.class);
-        int order_id = orderInfoResponse.data.order.status_code;
-        EventBus.getDefault().post(order_id);
+        EventBus.getDefault().post(orderInfoResponse);
     }
 
     @Override

@@ -27,6 +27,9 @@ public class CancelOrderActivity extends CancelActivity {
     private String reason;
     private static List<String> entities = new ArrayList<>();
 
+    public static final int CANCEL_SUCCESS = 760;
+
+
     static {
         entities.add("理由1");
         entities.add("理由2");
@@ -34,13 +37,16 @@ public class CancelOrderActivity extends CancelActivity {
         entities.add("理由4");
         entities.add("理由5");
         entities.add("理由6");
-        entities.add("理由7");
-        entities.add("理由8");
     }
 
     @Override
     public List<String> setReasonList() {
         return entities;
+    }
+
+    @Override
+    protected void onNotCancelButtonClick() {
+        this.finish();
     }
 
     @Override
@@ -50,8 +56,11 @@ public class CancelOrderActivity extends CancelActivity {
                                  @Override
                                  public void onNext(DefaultResponse defaultResponse) {
                                      Toast.makeText(CancelOrderActivity.this, "取消成功", Toast.LENGTH_SHORT).show();
+                                     setResult(CANCEL_SUCCESS);
+                                     CancelOrderActivity.this.onBackPressed();
                                  }
-                             }, PrefHelper.getInteger(CancelOrderActivity.this, "user_id"),
+                             },
+                        PrefHelper.getInteger(CancelOrderActivity.this, "user_id"),
                         UserManager.getToken(CancelOrderActivity.this),
                         PrefHelper.getInteger(CancelOrderActivity.this, "order_id"),
                         2000,

@@ -37,20 +37,21 @@ public class TimerPickerPopWindow extends PopupWindow implements View.OnClickLis
     private NumberPickerView mPickerMinute = null;
 
     private SimpleDateFormat format = null;
+    private Date nowDate = null;
 
     private String[] date = null;
     private String[] hour = null;
     private String[] minutes = null;
 
-    private String mStringDate;
-    private String mStringHour;
-    private String mStringMinutes;
+    private int valDate = 0;
+    private int valHour = 0;
+    private int valMinutes = 0;
 
-    private String mStringNowYear;
-    private String mStringNowMonth;
-    private String mStringNowDate;
-    private String mStringNowHour;
-    private String mStringNowMinutes;
+    private long appointmentTime = 0;
+
+    public long getAppointmentTime() {
+        return appointmentTime;
+    }
 
     public TimerPickerPopWindow(Activity activity, ViewGroup viewGroup) {
         mActivity = activity;
@@ -84,43 +85,26 @@ public class TimerPickerPopWindow extends PopupWindow implements View.OnClickLis
         mPickerMinute = (NumberPickerView) mContentView.findViewById(R.id.picker_minute);
         mTextViewCancel.setOnClickListener(this);
         mTextViewOk.setOnClickListener(this);
-        mPickerDate.setOnScrollListener(new NumberPickerView.OnScrollListener() {
+
+        mPickerDate.setOnValueChangedListener(new NumberPickerView.OnValueChangeListener() {
             @Override
-            public void onScrollStateChange(NumberPickerView view, int scrollState) {
-                if (scrollState != 2) {
-                    mStringDate = date[scrollState];
-                }
-            }
-        });
-        mPickerHour.setOnScrollListener(new NumberPickerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChange(NumberPickerView view, int scrollState) {
-                mStringHour = hour[scrollState];
-            }
-        });
-        mPickerMinute.setOnScrollListener(new NumberPickerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChange(NumberPickerView view, int scrollState) {
-                mStringMinutes = minutes[scrollState];
+            public void onValueChange(NumberPickerView picker, int oldVal, int newVal) {
+                valDate = newVal;
             }
         });
 
-
-        format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long nowTime = System.currentTimeMillis();
-        String mStringNow = format.format(nowTime);
-        Date nowDate = null;
-        try {
-            nowDate = format.parse(mStringNow);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        mStringNowYear = nowDate.getYear() + "";
-        mStringNowMonth = nowDate.getMonth() + 1 + "";
-        mStringNowDate = nowDate.getDate() + "";
-        mStringNowHour = nowDate.getHours() + "";
-        mStringNowMinutes = nowDate.getMinutes() + "";
+        mPickerHour.setOnValueChangedListener(new NumberPickerView.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPickerView picker, int oldVal, int newVal) {
+                valHour = newVal;
+            }
+        });
+        mPickerMinute.setOnValueChangedListener(new NumberPickerView.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPickerView picker, int oldVal, int newVal) {
+                valMinutes = newVal;
+            }
+        });
 
 
         mPickerDate.refreshByNewDisplayedValues(date);
@@ -148,6 +132,20 @@ public class TimerPickerPopWindow extends PopupWindow implements View.OnClickLis
                 break;
             case R.id.tv_ok_timer_picker:
 
+                format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                long nowTime = System.currentTimeMillis();
+                String mStringNow = format.format(nowTime);
+
+                try {
+                    nowDate = format.parse(mStringNow);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                long interval = (valDate * 86400000) + ((valHour - nowDate.getHours()) * 3600000) + ((valMinutes * 10 - nowDate.getMinutes()) * 60000);
+                appointmentTime = nowTime + interval;
+                this.dismiss();
+                break;
         }
     }
 }

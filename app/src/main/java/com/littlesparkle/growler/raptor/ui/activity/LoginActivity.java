@@ -82,8 +82,6 @@ public class LoginActivity extends BaseLoginActivity {
                 user.persist(LoginActivity.this);
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 finish();
-
-
             }
         }, phoneNumber, pwd);
     }

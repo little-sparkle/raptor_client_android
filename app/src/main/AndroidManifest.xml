@@ -112,6 +112,7 @@
                   android:theme="@style/Theme.Design.Light.NoActionBar">
 
         </activity>
+        <service android:name=".service.OrderInfoService"></service>
 
         <receiver
             android:name=".boradcastreceiver.DownloadReceiver"

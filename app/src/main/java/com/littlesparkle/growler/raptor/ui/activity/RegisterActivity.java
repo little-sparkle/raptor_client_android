@@ -97,7 +97,7 @@ public class RegisterActivity extends BaseRegisterActivity {
 
             @Override
             public void onNext(DefaultResponse defaultResponse) {
-                System.out.println(defaultResponse.data.toString());
+                Toast.makeText(RegisterActivity.this, "验证码发送成功~请注意查收", Toast.LENGTH_SHORT).show();
             }
         }, phoneNumber);
     }

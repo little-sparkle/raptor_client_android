@@ -40,6 +40,7 @@ import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.igexin.sdk.PushManager;
+import com.littlesparkle.growler.library.MessageQueue.OrderInfoMessageQueue;
 import com.littlesparkle.growler.library.activity.BaseActivity;
 import com.littlesparkle.growler.library.http.BaseHttpSubscriber;
 import com.littlesparkle.growler.library.http.ErrorResponse;
@@ -125,6 +126,8 @@ public class MainActivity extends BaseActivity implements
     public static final int RESULT_CODE_DESTINATION_FAILED = 120;
     public static final int RESULT_CODE_CANCEL_ORDER = 180;
 
+
+    public OrderInfoMessageQueue<OrderInfoResponse> mOrderInfoMessageQueue;
 
     public static boolean locationAndMove = true;
 
@@ -270,6 +273,8 @@ public class MainActivity extends BaseActivity implements
         initDrawer();
         EventBus.getDefault().register(this);
         mainActivity = this;
+        mOrderInfoMessageQueue = OrderInfoMessageQueue.getInstance();
+        mOrderInfoMessageQueue.prepare();
     }
 
     public void moveToLatLng(LatLng latLng) {
@@ -386,6 +391,7 @@ public class MainActivity extends BaseActivity implements
         super.onDestroy();
         mLocationTask.stopLocation();
         mMapView.onDestroy();
+        mOrderInfoMessageQueue.onDestroy();
         EventBus.getDefault().unregister(this);
     }
 
@@ -515,6 +521,7 @@ public class MainActivity extends BaseActivity implements
                 mTextViewTo.setText("");
                 mMarkerTask.showMarker();
                 mPositionMark.setTitle("");
+                mOrderInfoMessageQueue.stopSend();
                 stopService(new Intent(MainActivity.this, OrderInfoService.class));
                 mPositionMark.hideInfoWindow();
             }
@@ -648,9 +655,10 @@ public class MainActivity extends BaseActivity implements
 
 
     @Subscribe(threadMode = ThreadMode.MainThread)
-    public void onOrderResponse(OrderInfoResponse orderInfoResponse) {
-        switch (orderInfoResponse.data.order.status_code) {
+    public void onOrderResponse(OrderInfoMessageQueue.OrderInfoEvent orderInfoEvent) {
+        switch (orderInfoEvent.mOrderInfoResponse.data.order.status_code) {
             case OrderReceiver.is_called_car:
+                Toast.makeText(mainActivity, "收到消息", Toast.LENGTH_SHORT).show();
                 break;
             case OrderReceiver.has_received_orders:
 
